@@ -14,6 +14,10 @@ config/name="nights-of-tec"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameState="*uid://dnfco701qjbab"
+
 [display]
 
 window/stretch/mode="canvas_items"
