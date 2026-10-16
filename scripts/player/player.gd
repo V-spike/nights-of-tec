@@ -19,6 +19,7 @@ var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 @export var mouse_sensitivity: float = 0.002
 @onready var head: Node3D = $Head
 @onready var flashlight: SpotLight3D = $Head/Camera3D/Flashlight
+@onready var interact_ray: RayCast3D = $Head/Camera3D/InteractRay
 
 #Cuando nace el jugador, esconde el cursor
 func _ready() -> void: 
@@ -37,6 +38,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-80), deg_to_rad(80))
 	if event.is_action_pressed("flashlight"):
 		flashlight.visible = not flashlight.visible
+		
+	if event.is_action_pressed("interact"):
+		if interact_ray.is_colliding():
+			var target = interact_ray.get_collider()
+			if target is Interactable:
+				target.interact()		
 func _physics_process(delta: float) -> void:
 	#1. Gravedad
 	if not is_on_floor():
