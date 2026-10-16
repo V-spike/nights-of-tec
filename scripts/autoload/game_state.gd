@@ -12,7 +12,7 @@ signal hint_shown(text: String) #muestra texto de ayuda en pantalla
 var keys: Array[String] = []  #llaves que tiene el jugador
 var clues: Array[String] = [] #pistas encontradas
 var second_chance_used: bool = false #¿ya lo atraparon?
-var input_locked: bool = false 
+var input_locked: bool = false #entrada congelada 
 
 #Guarda una llave nueva en la lista
 func add_key(id: String) -> void:
