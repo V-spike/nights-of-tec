@@ -18,3 +18,11 @@ shape = SubResource("CapsuleShape3D_b7hpn")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head" unique_id=767961084]
+
+[node name="Flashlight" type="SpotLight3D" parent="Head/Camera3D" unique_id=2106641942]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, -0.2, 0)
+visible = false
+light_energy = 3.0
+shadow_enabled = true
+spot_range = 15.0
+spot_angle = 25.0
