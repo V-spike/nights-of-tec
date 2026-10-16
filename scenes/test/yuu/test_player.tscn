@@ -1,6 +1,11 @@
 [gd_scene format=3 uid="uid://dbv2hdricm4g3"]
 
 [ext_resource type="PackedScene" uid="uid://b4ivstb584qxe" path="res://scenes/player/player.tscn" id="1_hw6yv"]
+[ext_resource type="Script" uid="uid://dloes5qpyfd5l" path="res://scripts/interaction/interactable.gd" id="2_76ft7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hfuxe"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_b7hpn"]
 
 [node name="TestPlayer" type="Node3D" unique_id=2060787457]
 
@@ -18,3 +23,16 @@ transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70
 [node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=413431283]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1643939, 0.53990316, -4.2472987)
 use_collision = true
+
+[node name="CajaPrueba" type="StaticBody3D" parent="." unique_id=1781066492]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1.5)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("2_76ft7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CajaPrueba" unique_id=144214120]
+shape = SubResource("BoxShape3D_hfuxe")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CajaPrueba" unique_id=1138553893]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.09232736, -0.30520624, -0.0008791685)
+mesh = SubResource("BoxMesh_b7hpn")
