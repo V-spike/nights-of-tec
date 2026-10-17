@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://d22chufykqg2"]
+
+[ext_resource type="PackedScene" uid="uid://b4ivstb584qxe" path="res://scenes/player/player.tscn" id="1_3beip"]
+[ext_resource type="PackedScene" uid="uid://btrknn2g3vsdn" path="res://scenes/enemy/guard.tscn" id="1_ukiln"]
+
+[sub_resource type="Curve3D" id="Curve3D_3beip"]
+closed = true
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 7.9872017, -4.7683716e-07, 8.0451565, 0, 0, 0, 0, 0, 0, 8.005075, 0, -7.931016, 0, 0, 0, 0, 0, 0, -7.9791155, 0, -7.921029, 0, 0, 0, 0, 0, 0, -7.9508123, 0, 7.978758),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[node name="Node3D" type="Node3D" unique_id=193364612]
+
+[node name="Player" parent="." unique_id=1111197248 instance=ExtResource("1_3beip")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, 13)
+
+[node name="Guard" parent="." unique_id=1824659354 node_paths=PackedStringArray("path") instance=ExtResource("1_ukiln")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+path = NodePath("../GuardPath")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=134246261]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(30, 1, 30)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=142863306]
+transform = Transform3D(1, 0, 0, 0, 0.5461019, -0.8377187, 0, 0.8377187, 0.5461019, -0.2731166, 4.2044773, -4.1203957)
+
+[node name="GuardPath" type="Path3D" parent="." unique_id=540758286]
+curve = SubResource("Curve3D_3beip")
