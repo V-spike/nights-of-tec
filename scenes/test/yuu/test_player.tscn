@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bx8ettldx5v8i" path="res://scenes/interactables/key.tscn" id="1_76nkh"]
 [ext_resource type="PackedScene" uid="uid://d0y7g7nasqkgh" path="res://scenes/interactables/door.tscn" id="1_aotdq"]
 [ext_resource type="PackedScene" uid="uid://b4ivstb584qxe" path="res://scenes/player/player.tscn" id="1_hw6yv"]
+[ext_resource type="PackedScene" uid="uid://bday7qfa5qayn" path="res://scenes/interactables/note.tscn" id="1_v8p3s"]
 [ext_resource type="Script" uid="uid://dloes5qpyfd5l" path="res://scenes/interactables/interactable.gd" id="2_76ft7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hfuxe"]
@@ -12,7 +13,7 @@
 [node name="TestPlayer" type="Node3D" unique_id=2060787457]
 
 [node name="Key" parent="." unique_id=995229420 instance=ExtResource("1_76nkh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.25, -2)
 key_id = "llave_lab"
 
 [node name="Door" parent="." unique_id=1670559412 instance=ExtResource("1_aotdq")]
@@ -28,11 +29,16 @@ use_collision = true
 size = Vector3(20, 1, 20)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=387991448]
-transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -0.9316912, 0.36325112, 0, -0.36325112, -0.9316912, 0, 0, 0)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=413431283]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1643939, 0.53990316, -4.2472987)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.53990316, -4.2472987)
 use_collision = true
+
+[node name="Note" parent="CSGBox3D" unique_id=730849638 instance=ExtResource("1_v8p3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+note_text = "Sal"
+ends_demo = true
 
 [node name="CajaPrueba" type="StaticBody3D" parent="." unique_id=1781066492]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, -1.5)
