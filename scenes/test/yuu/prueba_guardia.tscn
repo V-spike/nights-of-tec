@@ -30,3 +30,8 @@ transform = Transform3D(1, 0, 0, 0, 0.5461019, -0.8377187, 0, 0.8377187, 0.54610
 
 [node name="GuardPath" type="Path3D" parent="." unique_id=540758286]
 curve = SubResource("Curve3D_3beip")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=563350715]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1.5, -9)
+use_collision = true
+size = Vector3(4, 3, 0.3)
