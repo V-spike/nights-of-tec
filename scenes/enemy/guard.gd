@@ -13,7 +13,7 @@ enum State { PATROL, CHASE }
 var state: State = State.PATROL
 var path_offset: float = 0.0
 var lose_timer: float = 0.0
-var has_caught: bool = false
+var catching: bool = false # candado: true mientras dura la captura
 var player: Node3D
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -23,13 +23,11 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	# Durante la captura el guardia no hace nada
+	if catching:
+		return
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-	if has_caught:
-		velocity.x = 0.0
-		velocity.z = 0.0
-		move_and_slide()
-		return
 	if state == State.PATROL:
 		patrol()
 		if can_see_player():
@@ -57,9 +55,7 @@ func chase(delta: float) -> void:
 		return
 	move_toward_target(player.global_position, chase_speed)
 	if global_position.distance_to(player.global_position) < catch_distance:
-		has_caught = true
-		print("¡Te atrapé!")
-		GameState.player_caught.emit()
+		catch_player()
 		return
 	if can_see_player():
 		lose_timer = 0.0
@@ -68,6 +64,24 @@ func chase(delta: float) -> void:
 		if lose_timer >= lose_time:
 			lose_timer = 0.0
 			state = State.PATROL
+
+
+func catch_player() -> void:
+	catching = true
+	velocity = Vector3.ZERO
+	print("¡Te atrapé!")
+	GameState.player_caught.emit()
+	# Espera a que la pantalla esté negra
+	await get_tree().create_timer(0.6).timeout
+	# Se va a la mitad de su ruta: el fondo del pasillo
+	if path != null:
+		path_offset = path.curve.get_baked_length() / 2.0
+		global_position = path.to_global(path.curve.sample_baked(path_offset))
+	state = State.PATROL
+	lose_timer = 0.0
+	# Espera a que la pantalla vuelva y suelta el candado
+	await get_tree().create_timer(1.4).timeout
+	catching = false
 
 
 func move_toward_target(target: Vector3, move_speed: float) -> void:
