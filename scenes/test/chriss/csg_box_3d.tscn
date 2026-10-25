@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://plnwhhguhjv0"]
+
+[ext_resource type="PackedScene" uid="uid://ddmblv81umnd6" path="res://scenes/test/chriss/chair-col.glb" id="1_s1h1c"]
+
+[node name="CSGBox3D" type="CSGBox3D" unique_id=1638684938]
+
+[node name="chair-col2" parent="." unique_id=377440171 instance=ExtResource("1_s1h1c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5772495, 0.20263815, -1.4689528)
