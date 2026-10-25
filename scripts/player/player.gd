@@ -24,6 +24,8 @@ var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 #Cuando nace el jugador, esconde el cursor
 func _ready() -> void: 
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	#escucha la señal de captura del guardia
+	GameState.player_caught.connect(_on_caught)
 #cuando el usuario presiona una tecla o mueve el mouse
 func _unhandled_input(event: InputEvent) -> void:
 	#pregunta si la entrada es "esc" asociada a ui cancel, activa el cursor
@@ -78,3 +80,23 @@ func _physics_process(delta: float) -> void:
 	velocity.x = direction.x * speed
 	velocity.z = direction.z * speed
 	move_and_slide()
+
+#el guardia te atrapó: bloquear, teletransportar y soltar
+func _on_caught() -> void:
+	GameState.input_locked = true
+	#espera a que la pantalla esté negra
+	await get_tree().create_timer(0.6).timeout
+	var respawn := get_tree().get_first_node_in_group("capture_respawn") as Node3D
+	if respawn == null:
+		push_warning("Falta un Marker3D en el grupo capture_respawn")
+	else:
+		global_position = respawn.global_position
+		rotation.y = respawn.global_rotation.y
+	head.rotation.x = 0.0
+	velocity = Vector3.ZERO
+	stamina = 1.0
+	exhausted = false
+	GameState.stamina_changed.emit(stamina)
+	#espera a que la pantalla vuelva y suelta el candado
+	await get_tree().create_timer(1.4).timeout
+	GameState.input_locked = false
