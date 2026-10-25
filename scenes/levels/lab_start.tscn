@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://dxo5q0ialgpok"]
+
+[node name="LabStart" type="Node3D" unique_id=1088712379]
+
+[node name="Geometry" type="Node3D" parent="." unique_id=1974700832]
+
+[node name="Floor" type="CSGBox3D" parent="Geometry" unique_id=901550336]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+use_collision = true
+size = Vector3(10, 0.2, 8)
+
+[node name="Wall_Back" type="CSGBox3D" parent="Geometry" unique_id=653996327]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -4)
+use_collision = true
+size = Vector3(10, 3, 0.2)
+
+[node name="Wall_Left" type="CSGBox3D" parent="Geometry" unique_id=312572234]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1.5, 0)
+use_collision = true
+size = Vector3(0.2, 3, 8)
+
+[node name="Wall_Right" type="CSGBox3D" parent="Geometry" unique_id=257625793]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.5, 0)
+use_collision = true
+size = Vector3(0.2, 3, 8)
+
+[node name="Wall_Front_Left" type="CSGBox3D" parent="Geometry" unique_id=425955956]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 1.5, 4)
+use_collision = true
+size = Vector3(4.4, 3, 0.2)
+
+[node name="Wall_Front_Right" type="CSGBox3D" parent="Geometry" unique_id=649871055]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.5, 4)
+use_collision = true
+size = Vector3(4.4, 3, 0.2)
+
+[node name="Interactables" type="Node3D" parent="." unique_id=1977787444]
+
+[node name="Lights" type="Node3D" parent="." unique_id=1169884948]
