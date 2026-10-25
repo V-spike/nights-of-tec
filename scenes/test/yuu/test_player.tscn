@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bx8ettldx5v8i" path="res://scenes/interactables/key.tscn" id="1_76nkh"]
 [ext_resource type="PackedScene" uid="uid://d0y7g7nasqkgh" path="res://scenes/interactables/door.tscn" id="1_aotdq"]
 [ext_resource type="PackedScene" uid="uid://b4ivstb584qxe" path="res://scenes/player/player.tscn" id="1_hw6yv"]
+[ext_resource type="PackedScene" uid="uid://pdfynglir4n4" path="res://scenes/interactables/code_door.tscn" id="1_qokvh"]
 [ext_resource type="PackedScene" uid="uid://bday7qfa5qayn" path="res://scenes/interactables/note.tscn" id="1_v8p3s"]
 [ext_resource type="Script" uid="uid://dloes5qpyfd5l" path="res://scenes/interactables/interactable.gd" id="2_76ft7"]
 
@@ -12,11 +13,14 @@
 
 [node name="TestPlayer" type="Node3D" unique_id=2060787457]
 
+[node name="CodeDoor" parent="." unique_id=1670559412 instance=ExtResource("1_qokvh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -3)
+
 [node name="Key" parent="." unique_id=995229420 instance=ExtResource("1_76nkh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.25, -2)
 key_id = "llave_lab"
 
-[node name="Door" parent="." unique_id=1670559412 instance=ExtResource("1_aotdq")]
+[node name="Door" parent="." unique_id=1114679647 instance=ExtResource("1_aotdq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
 key_id = "llave_lab"
 

@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://pdfynglir4n4"]
+
+[ext_resource type="PackedScene" uid="uid://d0y7g7nasqkgh" path="res://scenes/interactables/door.tscn" id="1_3a7f8"]
+[ext_resource type="Script" uid="uid://dfn8i6jukoj8d" path="res://scenes/interactables/code_door.gd" id="2_hcbs1"]
+
+[node name="CodeDoor" unique_id=1670559412 instance=ExtResource("1_3a7f8")]
+script = ExtResource("2_hcbs1")
+code = "0247"
+
+[node name="CodePanel" type="CanvasLayer" parent="." index="4" unique_id=1205453687]
+
+[node name="Box" type="VBoxContainer" parent="CodePanel" index="0" unique_id=1227747125]
+offset_right = 40.0
+offset_bottom = 40.0
+alignment = 1
+
+[node name="Title" type="Label" parent="CodePanel/Box" index="0" unique_id=1433945217]
+layout_mode = 2
+text = "Escribe el código"
+
+[node name="CodeInput" type="LineEdit" parent="CodePanel/Box" index="1" unique_id=717596221]
+layout_mode = 2
+max_length = 4
