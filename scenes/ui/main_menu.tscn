@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://c7rmqnkhr2nay"]
+
+[node name="MainMenu" type="Node2D" unique_id=511868089]
+
+[node name="Background" type="ColorRect" parent="." unique_id=488976887]
+offset_right = 40.0
+offset_bottom = 40.0
