@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://44hcgoh8h7mp"]
+
+[sub_resource type="Curve3D" id="Curve3D_pflc7"]
+
+[node name="HallwayFloor1" type="Node2D" unique_id=1938968827]
+
+[node name="Geometry" type="Node3D" parent="." unique_id=1803028013]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Geometry" unique_id=940160428]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+use_collision = true
+size = Vector3(3, 0.2, 16)
+
+[node name="Wall_Left" type="CSGBox3D" parent="Geometry" unique_id=59424096]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 1.5, 0)
+use_collision = true
+size = Vector3(0.2, 3, 16)
+
+[node name="Wall_Right" type="CSGBox3D" parent="Geometry" unique_id=1252465093]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 1.5, 0)
+use_collision = true
+size = Vector3(0.2, 3, 16)
+
+[node name="Wall_Back" type="CSGBox3D" parent="Geometry" unique_id=965440753]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -8)
+use_collision = true
+size = Vector3(3.2, 3, 0.2)
+
+[node name="Wall_Front" type="CSGBox3D" parent="Geometry" unique_id=1590558985]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 1.5, 8)
+use_collision = true
+size = Vector3(0.8, 3, 0.2)
+
+[node name="Interactabales" type="Node3D" parent="." unique_id=414541384]
+
+[node name="Lights" type="Node3D" parent="." unique_id=852518725]
+
+[node name="CaptureRespawn" type="Marker3D" parent="." unique_id=299482472 groups=["capture_respawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 5)
+
+[node name="GuardPath" type="Path3D" parent="." unique_id=1836191221]
+curve = SubResource("Curve3D_pflc7")
