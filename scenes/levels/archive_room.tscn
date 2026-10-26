@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://csfob2w8uhbf4"]
 
-[node name="ArchiveRoom" type="Node2D" unique_id=1967779532]
+[node name="ArchiveRoom" type="Node3D" unique_id=671506131]
 
 [node name="Geometry" type="Node3D" parent="." unique_id=1876599554]
 
