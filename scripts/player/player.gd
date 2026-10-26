@@ -1,4 +1,9 @@
 extends CharacterBody3D
+@export var crouch_speed: float = 1.5
+@export var stand_head_height: float = 1.6
+@export var crouch_head_height: float = 1.0
+#¿está agachado? el guardia lo lee
+var crouching: bool = false
 #declaracion de estamina, velocidad al caminar, velocidad al correr
 @export var walk_speed: float = 3.0
 @export var run_speed: float = 5.5
@@ -65,10 +70,13 @@ func _physics_process(delta: float) -> void:
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	#velocidad actual 
 	#Pregunta si esta corriendo shift: presionado y dir: distinta a quieta
-	var running := Input.is_action_pressed("run") and input_dir != Vector2.ZERO and not exhausted
+	crouching = Input.is_action_pressed("crouch") and not GameState.input_locked
+	var running := Input.is_action_pressed("run") and input_dir != Vector2.ZERO and not exhausted and not crouching
 	var speed := walk_speed
 	if running:
 		speed = run_speed
+	elif crouching:
+		speed = crouch_speed
 	if running:
 		stamina -= stamina_drain * delta
 	else:
@@ -85,6 +93,9 @@ func _physics_process(delta: float) -> void:
 	#velocidad  x/z con  speed, multiplica. 
 	velocity.x = direction.x * speed
 	velocity.z = direction.z * speed
+		#baja o sube la cámara poco a poco
+	var head_target := crouch_head_height if crouching else stand_head_height
+	head.position.y = lerp(head.position.y, head_target, 10.0 * delta)
 	move_and_slide()
 #el guardia te atrapó: bloquear, teletransportar y soltar
 func _on_caught() -> void:
