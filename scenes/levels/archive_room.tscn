@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://csfob2w8uhbf4"]
+
+[node name="ArchiveRoom" type="Node2D" unique_id=1967779532]
+
+[node name="Geometry" type="Node3D" parent="." unique_id=1876599554]
+
+[node name="Floor" type="CSGBox3D" parent="Geometry" unique_id=1698764226]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+use_collision = true
+size = Vector3(10, 0.2, 8)
+
+[node name="Wall_Back" type="CSGBox3D" parent="Geometry" unique_id=1089264294]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -4)
+use_collision = true
+size = Vector3(10, 3, 0.2)
+
+[node name="Wall_Left" type="CSGBox3D" parent="Geometry" unique_id=780343722]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1.5, 0)
+use_collision = true
+size = Vector3(0.2, 3, 8)
+
+[node name="Wall_Right" type="CSGBox3D" parent="Geometry" unique_id=395054654]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.5, 0)
+use_collision = true
+size = Vector3(0.2, 3, 8)
+
+[node name="Wall_Front_Left" type="CSGBox3D" parent="Geometry" unique_id=1152295047]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 1.5, 4)
+use_collision = true
+size = Vector3(4.4, 3, 0.2)
+
+[node name="Wall_Front_Right" type="CSGBox3D" parent="Geometry" unique_id=2011617502]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.5, 4)
+use_collision = true
+size = Vector3(4.4, 3, 0.2)
+
+[node name="ArchiveDesk" type="CSGBox3D" parent="Geometry" unique_id=519293692]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -2)
+use_collision = true
+size = Vector3(1.6, 0.1, 0.8)
+
+[node name="ArchiveCabinet" type="CSGBox3D" parent="Geometry" unique_id=2080631826]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.7, -2)
+use_collision = true
+size = Vector3(1, 1.4, 0.5)
+
+[node name="Interactable" type="Node3D" parent="." unique_id=1034681988]
+
+[node name="Lights" type="Node3D" parent="." unique_id=453858169]
+
+[node name="ArchiveLight_Main" type="OmniLight3D" parent="Lights" unique_id=536582692]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+light_energy = 1.5
+omni_range = 10.0
+
+[node name="ArchiveLight_Back" type="OmniLight3D" parent="Lights" unique_id=2043190080]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -2.5)
+light_energy = 1.5
+omni_range = 10.0
