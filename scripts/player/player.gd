@@ -26,6 +26,7 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	#escucha la señal de captura del guardia
 	GameState.player_caught.connect(_on_caught)
+	GameState.game_over.connect(_on_game_over)
 		# Al nacer, ir al PlayerSpawn de lab_start
 	var spawn := get_tree().get_first_node_in_group("player_spawn") as Node3D
 	if spawn != null:
@@ -85,7 +86,6 @@ func _physics_process(delta: float) -> void:
 	velocity.x = direction.x * speed
 	velocity.z = direction.z * speed
 	move_and_slide()
-
 #el guardia te atrapó: bloquear, teletransportar y soltar
 func _on_caught() -> void:
 	GameState.input_locked = true
@@ -105,3 +105,9 @@ func _on_caught() -> void:
 	#espera a que la pantalla vuelva y suelta el candado
 	await get_tree().create_timer(1.4).timeout
 	GameState.input_locked = false
+#segunda captura: congelar, esperar y reiniciar todo
+func _on_game_over() -> void:
+	GameState.input_locked = true
+	await get_tree().create_timer(1.5).timeout
+	GameState.reset()
+	get_tree().reload_current_scene()
