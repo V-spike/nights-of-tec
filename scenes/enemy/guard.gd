@@ -16,7 +16,7 @@ var lose_timer: float = 0.0
 var catching: bool = false # candado: true mientras dura la captura
 var player: Node3D
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
-
+@onready var anim: AnimationPlayer = $Model/AnimationPlayer
 
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
@@ -25,6 +25,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	# Durante la captura el guardia no hace nada
 	if catching:
+		play_anim("idle")
 		return
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -36,6 +37,13 @@ func _physics_process(delta: float) -> void:
 	elif state == State.CHASE:
 		chase(delta)
 	move_and_slide()
+	# Animación según lo que esté haciendo
+	if state == State.CHASE:
+		play_anim("run")
+	elif velocity.x == 0.0 and velocity.z == 0.0:
+		play_anim("idle")
+	else:
+		play_anim("walk")
 
 
 func patrol() -> void:
@@ -111,3 +119,9 @@ func can_see_player() -> bool:
 	query.exclude = [get_rid()]
 	var hit := get_world_3d().direct_space_state.intersect_ray(query)
 	return not hit.is_empty() and hit.collider == player
+
+
+# Cambia la animación solo si es distinta a la que ya suena
+func play_anim(anim_name: String) -> void:
+	if anim.current_animation != anim_name:
+		anim.play(anim_name)
