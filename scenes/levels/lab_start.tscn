@@ -38,5 +38,15 @@ size = Vector3(4.4, 3, 0.2)
 
 [node name="Lights" type="Node3D" parent="." unique_id=1169884948]
 
+[node name="Lablight_Main" type="OmniLight3D" parent="Lights" unique_id=2004644449]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+light_energy = 1.5
+omni_range = 10.0
+
+[node name="Lablight_Back" type="OmniLight3D" parent="Lights" unique_id=463762393]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -2.5)
+light_energy = 1.5
+omni_range = 10.0
+
 [node name="PlayerSpawn" type="Marker3D" parent="." unique_id=2129044194 groups=["player_spawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
