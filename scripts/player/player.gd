@@ -26,6 +26,11 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	#escucha la señal de captura del guardia
 	GameState.player_caught.connect(_on_caught)
+		# Al nacer, ir al PlayerSpawn de lab_start
+	var spawn := get_tree().get_first_node_in_group("player_spawn") as Node3D
+	if spawn != null:
+		global_position = spawn.global_position
+		rotation.y = spawn.global_rotation.y
 #cuando el usuario presiona una tecla o mueve el mouse
 func _unhandled_input(event: InputEvent) -> void:
 	#pregunta si la entrada es "esc" asociada a ui cancel, activa el cursor
