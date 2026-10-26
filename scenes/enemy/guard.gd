@@ -39,7 +39,8 @@ func _physics_process(delta: float) -> void:
 
 
 func patrol() -> void:
-	if path == null:
+	# Sin ruta, o con una ruta sin puntos, el guardia se queda quieto
+	if path == null or path.curve == null or path.curve.get_baked_length() == 0.0:
 		return
 	var curve := path.curve
 	var target := path.to_global(curve.sample_baked(path_offset))
