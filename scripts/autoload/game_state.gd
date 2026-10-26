@@ -13,7 +13,7 @@ var keys: Array[String] = []  #llaves que tiene el jugador
 var clues: Array[String] = [] #pistas encontradas
 var second_chance_used: bool = false #¿ya lo atraparon?
 var input_locked: bool = false #entrada congelada 
-
+var game_over_enabled: bool = true #false en el Open Day, true para la entrega
 #Guarda una llave nueva en la lista
 func add_key(id: String) -> void:
 	keys.append(id)
