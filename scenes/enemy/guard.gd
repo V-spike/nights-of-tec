@@ -111,7 +111,10 @@ func move_toward_target(target: Vector3, move_speed: float) -> void:
 func can_see_player() -> bool:
 	if player == null:
 		return false
-	if global_position.distance_to(player.global_position) > view_distance:
+	var max_distance := view_distance
+	if player.get("crouching"):
+		max_distance = view_distance / 2.0
+	if global_position.distance_to(player.global_position) > max_distance:
 		return false
 	var to_player := global_position.direction_to(player.global_position)
 	var forward := global_transform.basis.z
