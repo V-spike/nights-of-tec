@@ -2,7 +2,7 @@
 
 [sub_resource type="Curve3D" id="Curve3D_pflc7"]
 
-[node name="HallwayFloor1" type="Node2D" unique_id=1938968827]
+[node name="HallwayFloor1" type="Node3D" unique_id=1231568352]
 
 [node name="Geometry" type="Node3D" parent="." unique_id=1803028013]
 
@@ -21,19 +21,34 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 1.5, 0)
 use_collision = true
 size = Vector3(0.2, 3, 16)
 
-[node name="Wall_Back" type="CSGBox3D" parent="Geometry" unique_id=965440753]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -8)
+[node name="Wall_Back_Left" type="CSGBox3D" parent="Geometry" unique_id=1241831468]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 1.5, -8)
 use_collision = true
-size = Vector3(3.2, 3, 0.2)
+size = Vector3(1, 3, 0.2)
+
+[node name="Wall_Back_Right" type="CSGBox3D" parent="Geometry" unique_id=321058927]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 1.5, -8)
+use_collision = true
+size = Vector3(1, 3, 0.2)
 
 [node name="Wall_Front" type="CSGBox3D" parent="Geometry" unique_id=1590558985]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 1.5, 8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 1.5, 8)
 use_collision = true
-size = Vector3(0.8, 3, 0.2)
+size = Vector3(1, 3, 0.2)
 
 [node name="Interactabales" type="Node3D" parent="." unique_id=414541384]
 
 [node name="Lights" type="Node3D" parent="." unique_id=852518725]
+
+[node name="HallLight_Back" type="OmniLight3D" parent="Lights" unique_id=2065252200]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -5)
+light_energy = 1.5
+omni_range = 8.0
+
+[node name="HallLight_Main" type="OmniLight3D" parent="Lights/HallLight_Back" unique_id=847826957]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+light_energy = 1.5
+omni_range = 8.0
 
 [node name="CaptureRespawn" type="Marker3D" parent="." unique_id=299482472 groups=["capture_respawn"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 5)

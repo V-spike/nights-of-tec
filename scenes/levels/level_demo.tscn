@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://12roun5lcdw7"]
+
+[ext_resource type="PackedScene" uid="uid://dxo5q0ialgpok" path="res://scenes/levels/lab_start.tscn" id="1_4id00"]
+[ext_resource type="PackedScene" uid="uid://44hcgoh8h7mp" path="res://scenes/levels/hallway_floor1.tscn" id="2_4yg1m"]
+[ext_resource type="PackedScene" uid="uid://csfob2w8uhbf4" path="res://scenes/levels/archive_room.tscn" id="3_cw3dp"]
+
+[node name="LevelDemo" type="Node3D" unique_id=1603170915]
+
+[node name="LabStart" parent="." unique_id=1088712379 instance=ExtResource("1_4id00")]
+
+[node name="HallwayFloor1" parent="." unique_id=1231568352 instance=ExtResource("2_4yg1m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12)
+
+[node name="ArchiveRoom" parent="." unique_id=1967779532 instance=ExtResource("3_cw3dp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
