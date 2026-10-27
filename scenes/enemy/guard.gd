@@ -16,7 +16,7 @@ var lose_timer: float = 0.0
 var catching: bool = false # candado: true mientras dura la captura
 var player: Node3D
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
-
+@onready var anim: AnimationPlayer = $Model/AnimationPlayer
 
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
@@ -25,6 +25,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	# Durante la captura el guardia no hace nada
 	if catching:
+		play_anim("idle")
 		return
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -36,10 +37,18 @@ func _physics_process(delta: float) -> void:
 	elif state == State.CHASE:
 		chase(delta)
 	move_and_slide()
+	# Animación según lo que esté haciendo
+	if state == State.CHASE:
+		play_anim("run")
+	elif velocity.x == 0.0 and velocity.z == 0.0:
+		play_anim("idle")
+	else:
+		play_anim("walk")
 
 
 func patrol() -> void:
-	if path == null:
+	# Sin ruta, o con una ruta sin puntos, el guardia se queda quieto
+	if path == null or path.curve == null or path.curve.get_baked_length() == 0.0:
 		return
 	var curve := path.curve
 	var target := path.to_global(curve.sample_baked(path_offset))
@@ -70,6 +79,11 @@ func catch_player() -> void:
 	catching = true
 	velocity = Vector3.ZERO
 	print("¡Te atrapé!")
+		# Segunda captura: game over (si está activado)
+	if GameState.game_over_enabled and GameState.second_chance_used:
+		GameState.game_over.emit()
+		return
+	GameState.second_chance_used = true
 	GameState.player_caught.emit()
 	# Espera a que la pantalla esté negra
 	await get_tree().create_timer(0.6).timeout
@@ -97,7 +111,10 @@ func move_toward_target(target: Vector3, move_speed: float) -> void:
 func can_see_player() -> bool:
 	if player == null:
 		return false
-	if global_position.distance_to(player.global_position) > view_distance:
+	var max_distance := view_distance
+	if player.get("crouching"):
+		max_distance = view_distance / 2.0
+	if global_position.distance_to(player.global_position) > max_distance:
 		return false
 	var to_player := global_position.direction_to(player.global_position)
 	var forward := global_transform.basis.z
@@ -110,3 +127,9 @@ func can_see_player() -> bool:
 	query.exclude = [get_rid()]
 	var hit := get_world_3d().direct_space_state.intersect_ray(query)
 	return not hit.is_empty() and hit.collider == player
+
+
+# Cambia la animación solo si es distinta a la que ya suena
+func play_anim(anim_name: String) -> void:
+	if anim.current_animation != anim_name:
+		anim.play(anim_name)
