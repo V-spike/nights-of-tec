@@ -11,5 +11,8 @@
 [node name="HallwayFloor1" parent="." unique_id=1231568352 instance=ExtResource("2_4yg1m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12)
 
+[node name="HallwayB" parent="." unique_id=1866656024 instance=ExtResource("2_4yg1m")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 13, 0, 24)
+
 [node name="ArchiveRoom" parent="." unique_id=1967779532 instance=ExtResource("3_cw3dp")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 24)
