@@ -1,10 +1,19 @@
 [gd_scene format=3 uid="uid://b4ivstb584qxe"]
 
 [ext_resource type="Script" uid="uid://ch0sdxmykd6ih" path="res://scripts/player/player.gd" id="1_8afob"]
+[ext_resource type="AudioStream" uid="uid://ia2nll443tk" path="res://assets/audio/footstep00.ogg" id="2_75vfm"]
+[ext_resource type="AudioStream" uid="uid://b8wrurcqnmi85" path="res://assets/audio/footstep02.ogg" id="4_qek5x"]
+[ext_resource type="AudioStream" uid="uid://bvxsl5kkvtctd" path="res://assets/audio/footstep04.ogg" id="6_h17s1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_b7hpn"]
 radius = 0.35
 height = 1.8
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dovo2"]
+streams_count = 3
+stream_0/stream = ExtResource("6_h17s1")
+stream_1/stream = ExtResource("4_qek5x")
+stream_2/stream = ExtResource("2_75vfm")
 
 [node name="Player" type="CharacterBody3D" unique_id=1111197248 groups=["player"]]
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
@@ -31,3 +40,7 @@ spot_angle = 25.0
 [node name="InteractRay" type="RayCast3D" parent="Head/Camera3D" unique_id=952553442]
 target_position = Vector3(0, 0, -2)
 collision_mask = 8
+
+[node name="Footsteps" type="AudioStreamPlayer" parent="." unique_id=678285606]
+stream = SubResource("AudioStreamRandomizer_dovo2")
+mix_target = 1
