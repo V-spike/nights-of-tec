@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://i3r1yk01613i"]
+
+[node name="IntroScreen" type="Control" unique_id=259458154]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1972146843]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TimeLabel" type="Label" parent="." unique_id=1916589869]
+layout_mode = 0
+offset_top = 3.0
+offset_right = 1152.0
+offset_bottom = 648.0
+theme_override_colors/font_color = Color(0.91764706, 0.9490196, 1, 1)
+theme_override_font_sizes/font_size = 40
+text = "2:47 A.M."
+horizontal_alignment = 1
+vertical_alignment = 1
