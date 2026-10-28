@@ -10,8 +10,8 @@ var crouching: bool = false
 @export var stamina_drain: float = 0.25
 @export var stamina_regen: float = 0.15
 @export var stamina_recover_at: float = 0.3
-
-
+@export var step_distance: float = 1.3 #metros entre pisadas
+@export var step_volume_db: float = -25.0 #más negativo = más bajito
 #Cansancio del jugador
 var exhausted: bool = false
 #Estamina del jugador maximo 1
@@ -25,6 +25,8 @@ var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var head: Node3D = $Head
 @onready var flashlight: SpotLight3D = $Head/Camera3D/Flashlight
 @onready var interact_ray: RayCast3D = $Head/Camera3D/InteractRay
+@onready var footsteps: AudioStreamPlayer = $Footsteps
+var step_travel: float = 0.0 #metros recorridos desde la última pisada
 
 #Cuando nace el jugador, esconde el cursor
 func _ready() -> void: 
@@ -97,6 +99,17 @@ func _physics_process(delta: float) -> void:
 	var head_target := crouch_head_height if crouching else stand_head_height
 	head.position.y = lerp(head.position.y, head_target, 10.0 * delta)
 	move_and_slide()
+		#pasos: más seguidos al correr, más lentos y bajitos agachado
+		#pasos por distancia: más rápido = más seguido, chocando = nada
+	var horizontal_speed := Vector2(velocity.x, velocity.z).length()
+	if is_on_floor() and horizontal_speed > 0.1:
+		step_travel += horizontal_speed * delta
+		if step_travel >= step_distance:
+			step_travel = 0.0
+			footsteps.volume_db = step_volume_db - 10.0 if crouching else step_volume_db
+			footsteps.play()
+	else:
+		step_travel = step_distance
 #el guardia te atrapó: bloquear, teletransportar y soltar
 func _on_caught() -> void:
 	GameState.input_locked = true
