@@ -2,22 +2,88 @@
 
 [ext_resource type="PackedScene" uid="uid://d0y7g7nasqkgh" path="res://scenes/interactables/door.tscn" id="1_3a7f8"]
 [ext_resource type="Script" uid="uid://dfn8i6jukoj8d" path="res://scenes/interactables/code_door.gd" id="2_hcbs1"]
+[ext_resource type="Theme" path="res://scenes/ui/nights_theme.tres" id="3_theme"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.05, 0.07, 0.11, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.72, 0.35, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [node name="CodeDoor" unique_id=1670559412 instance=ExtResource("1_3a7f8")]
 script = ExtResource("2_hcbs1")
 code = "0247"
 
 [node name="CodePanel" type="CanvasLayer" parent="." index="4" unique_id=1205453687]
+layer = 2
 
-[node name="Box" type="VBoxContainer" parent="CodePanel" index="0" unique_id=1227747125]
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Dim" type="ColorRect" parent="CodePanel" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="Card" type="Panel" parent="CodePanel" index="1"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -140.0
+offset_right = 240.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Box" type="VBoxContainer" parent="CodePanel" index="2" unique_id=1227747125]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -115.0
+offset_right = 200.0
+offset_bottom = 115.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_theme")
+theme_override_constants/separation = 14
 alignment = 1
 
 [node name="Title" type="Label" parent="CodePanel/Box" index="0" unique_id=1433945217]
 layout_mode = 2
-text = "Escribe el código"
+theme_override_colors/font_color = Color(0.95, 0.72, 0.35, 1)
+theme_override_font_sizes/font_size = 30
+text = "PANEL DE SEGURIDAD"
+horizontal_alignment = 1
 
-[node name="CodeInput" type="LineEdit" parent="CodePanel/Box" index="1" unique_id=717596221]
+[node name="Subtitle" type="Label" parent="CodePanel/Box" index="1"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.62, 0.68, 0.78, 1)
+text = "Escribe el código de 4 dígitos"
+horizontal_alignment = 1
+
+[node name="CodeInput" type="LineEdit" parent="CodePanel/Box" index="2" unique_id=717596221]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+placeholder_text = "_ _ _ _"
+alignment = 1
 max_length = 4
+
+[node name="HelpLabel" type="Label" parent="CodePanel/Box" index="3"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.62, 0.68, 0.78, 1)
+theme_override_font_sizes/font_size = 15
+text = "Enter para confirmar  ·  Esc para salir"
+horizontal_alignment = 1

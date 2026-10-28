@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="nights-of-tec"
-run/main_scene="uid://c2q6bo7r0mg0y"
+run/main_scene="uid://c7rmqnkhr2nay"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
