@@ -1,24 +1,20 @@
 [gd_scene format=3 uid="uid://d0y7g7nasqkgh"]
 
 [ext_resource type="Script" uid="uid://cvq1555d63bib" path="res://scenes/interactables/door.gd" id="1_qq3h0"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_b7hpn"]
-size = Vector3(1, 2, 0.1)
+[ext_resource type="PackedScene" uid="uid://by0amuwpi3l1k" path="res://assets/models/door.glb" id="2_door"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_b7hpn"]
-size = Vector3(1, 2, 0.1)
+size = Vector3(1, 2.1, 0.12)
 
 [node name="Door" type="StaticBody3D" unique_id=1670559412]
 collision_layer = 9
 collision_mask = 0
 script = ExtResource("1_qq3h0")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1930098320]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0)
-mesh = SubResource("BoxMesh_b7hpn")
+[node name="Model" parent="." unique_id=1930098320 instance=ExtResource("2_door")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1761836680]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.05, 0)
 shape = SubResource("BoxShape3D_b7hpn")
 
 [node name="OpenSound" type="AudioStreamPlayer3D" parent="." unique_id=552686961]

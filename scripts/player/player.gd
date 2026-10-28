@@ -11,7 +11,7 @@ var crouching: bool = false
 @export var stamina_regen: float = 0.15
 @export var stamina_recover_at: float = 0.3
 @export var step_distance: float = 1.3 #metros entre pisadas
-@export var step_volume_db: float = -25.0 #más negativo = más bajito
+@export var step_volume_db: float = -32.0 #más negativo = más bajito
 #Cansancio del jugador
 var exhausted: bool = false
 #Estamina del jugador maximo 1

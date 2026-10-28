@@ -2,8 +2,8 @@ extends CharacterBody3D
 
 enum State { PATROL, CHASE }
 
-@export var speed: float = 2.0
-@export var chase_speed: float = 3.5
+@export var speed: float = 1.6
+@export var chase_speed: float = 3.0
 @export var path: Path3D
 @export var view_distance: float = 8.0
 @export var view_angle: float = 45.0
@@ -17,6 +17,7 @@ var catching: bool = false # candado: true mientras dura la captura
 var player: Node3D
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var anim: AnimationPlayer = $Model/AnimationPlayer
+@onready var agent: NavigationAgent3D = $Agent
 
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
@@ -99,7 +100,13 @@ func catch_player() -> void:
 
 
 func move_toward_target(target: Vector3, move_speed: float) -> void:
-	var dir := global_position.direction_to(target)
+	# El agente calcula el camino por el mapa (rodea muros y estantes)
+	agent.target_position = target
+	var next := agent.get_next_path_position()
+	# Sin mapa de navegación (escenas de prueba) camina en línea recta
+	if global_position.distance_to(next) < 0.05:
+		next = target
+	var dir := global_position.direction_to(next)
 	dir.y = 0.0
 	dir = dir.normalized()
 	velocity.x = dir.x * move_speed

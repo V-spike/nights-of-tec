@@ -1,9 +1,7 @@
 [gd_scene format=3 uid="uid://bx8ettldx5v8i"]
 
 [ext_resource type="Script" uid="uid://pnoleius2lgi" path="res://scenes/interactables/key.gd" id="1_joc56"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_b7hpn"]
-size = Vector3(0.15, 0.03, 0.06)
+[ext_resource type="PackedScene" uid="uid://sm8sgf7u0wgm" path="res://assets/models/key.glb" id="2_key"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hfuxe"]
 size = Vector3(0.3, 0.3, 0.3)
@@ -13,8 +11,8 @@ collision_layer = 8
 collision_mask = 0
 script = ExtResource("1_joc56")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1955078849]
-mesh = SubResource("BoxMesh_b7hpn")
+[node name="Model" parent="." unique_id=1955078849 instance=ExtResource("2_key")]
+transform = Transform3D(1.5, 0, 0, 0, 0, 1.5, 0, -1.5, 0, 0, 0.01, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1789397857]
 shape = SubResource("BoxShape3D_hfuxe")
