@@ -1,29 +1,45 @@
 [gd_scene format=3 uid="uid://i3r1yk01613i"]
 
-[node name="IntroScreen" type="Control" unique_id=259458154]
+[ext_resource type="Theme" uid="uid://cob1ioebdfqid" path="res://scenes/ui/nights_theme.tres" id="1_ocon4"]
+[ext_resource type="Script" uid="uid://cc5cxsbefdn5i" path="res://scenes/ui/intro_screen.gd" id="2_v66nu"]
+
+[node name="IntroScreen" type="Control" unique_id=424119301]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+theme = ExtResource("1_ocon4")
+script = ExtResource("2_v66nu")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1972146843]
-layout_mode = 1
-anchors_preset = 15
+[node name="Background" type="ColorRect" parent="." unique_id=2111555122]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="TimeLabel" type="Label" parent="." unique_id=1916589869]
+[node name="Center" type="CenterContainer" parent="." unique_id=1136935375]
 layout_mode = 0
-offset_top = 3.0
-offset_right = 1152.0
-offset_bottom = 648.0
-theme_override_colors/font_color = Color(0.91764706, 0.9490196, 1, 1)
-theme_override_font_sizes/font_size = 40
-text = "2:47 A.M."
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Box" type="VBoxContainer" parent="Center" unique_id=519596295]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="TimeLabel" type="Label" parent="Center/Box" unique_id=1961532167]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 72
+text = "2:47 a.m."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StoryLabel" type="Label" parent="Center/Box" unique_id=1316574468]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.62, 0.68, 0.78, 1)
+theme_override_font_sizes/font_size = 22
+text = "Te quedaste dormido en el laboratorio.
+El edificio está cerrado."
 horizontal_alignment = 1
 vertical_alignment = 1

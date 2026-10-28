@@ -1,44 +1,76 @@
 [gd_scene format=3 uid="uid://c7rmqnkhr2nay"]
 
-[node name="MainMenu" type="Control" unique_id=1005984164]
+[ext_resource type="Theme" path="res://scenes/ui/nights_theme.tres" id="1_sl1te"]
+[ext_resource type="Script" uid="uid://c8on8vkinybqa" path="res://scenes/ui/main_menu.gd" id="2_menu"]
+
+[node name="MainMenu" type="Control" unique_id=1198328930]
 layout_mode = 3
-anchors_preset = 15
+anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+theme = ExtResource("1_sl1te")
+script = ExtResource("2_menu")
 
-[node name="Background" type="ColorRect" parent="." unique_id=1632528377]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.03137255, 0.050980393, 0.08627451, 1)
-
-[node name="MenuContainer" type="VBoxContainer" parent="." unique_id=645875633]
-custom_minimum_size = Vector2(440, 360)
+[node name="Background" type="ColorRect" parent="." unique_id=876417242]
 layout_mode = 0
-offset_left = 276.0
-offset_top = 100.0
-offset_right = 316.0
-offset_bottom = 177.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.03, 0.05, 0.086, 1)
 
-[node name="Tittle" type="Label" parent="MenuContainer" unique_id=1856434926]
+[node name="Center" type="CenterContainer" parent="." unique_id=2126693287]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="MenuContainer" type="VBoxContainer" parent="Center" unique_id=1724463678]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.91764706, 0.9490196, 1, 1)
-theme_override_font_sizes/font_size = 42
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="Center/MenuContainer" unique_id=1136854655]
+layout_mode = 2
+theme_override_font_sizes/font_size = 72
+theme_override_colors/font_color = Color(0.91, 0.95, 1, 1)
 text = "NIGHTS OF TEC"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PlayButton" type="Label" parent="MenuContainer" unique_id=299798829]
-custom_minimum_size = Vector2(260, 56)
+[node name="Subtitle" type="Label" parent="Center/MenuContainer" unique_id=103993975]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.62, 0.68, 0.78, 1)
+text = "2:47 a.m.  ·  No estás solo en el campus."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Gap" type="Control" parent="Center/MenuContainer" unique_id=886056999]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+
+[node name="PlayButton" type="Button" parent="Center/MenuContainer" unique_id=321104667]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+size_flags_horizontal = 4
 text = "JUGAR"
 
-[node name="QuitButton" type="Label" parent="MenuContainer" unique_id=1898949774]
-custom_minimum_size = Vector2(260, 56)
+[node name="QuitButton" type="Button" parent="Center/MenuContainer" unique_id=2144044379]
+custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
+size_flags_horizontal = 4
 text = "SALIR"
+
+[node name="ControlsLabel" type="Label" parent="." unique_id=1887672375]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -500.0
+offset_top = -56.0
+offset_right = 500.0
+offset_bottom = -24.0
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.62, 0.68, 0.78, 1)
+text = "WASD moverse  ·  Shift correr  ·  Ctrl agacharse  ·  F linterna  ·  E interactuar"
+horizontal_alignment = 1
+vertical_alignment = 1
