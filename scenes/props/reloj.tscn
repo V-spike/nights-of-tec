@@ -1,0 +1,56 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sg6ej"]
+albedo_color = Color(0.06, 0.06, 0.07, 1)
+metallic = 0.6
+roughness = 0.4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_wlg1u"]
+top_radius = 0.195
+bottom_radius = 0.195
+height = 0.025
+radial_segments = 16
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kbdsi"]
+albedo_color = Color(0.93, 0.93, 0.91, 1)
+roughness = 0.35
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_mf6n0"]
+top_radius = 0.18
+bottom_radius = 0.18
+height = 0.03
+radial_segments = 16
+
+[sub_resource type="BoxMesh" id="BoxMesh_yk0as"]
+size = Vector3(0.022, 0.1, 0.005)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dta7j"]
+size = Vector3(0.015, 0.15, 0.005)
+
+[node name="Reloj" type="Node3D" unique_id=493662984]
+
+[node name="Cyl" type="MeshInstance3D" parent="." unique_id=773148823]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0.012)
+material_override = SubResource("StandardMaterial3D_sg6ej")
+mesh = SubResource("CylinderMesh_wlg1u")
+
+[node name="Cyl2" type="MeshInstance3D" parent="." unique_id=1409766367]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0.02)
+material_override = SubResource("StandardMaterial3D_kbdsi")
+mesh = SubResource("CylinderMesh_mf6n0")
+
+[node name="Manecilla" type="Node3D" parent="." unique_id=529127222]
+transform = Transform3D(0.11320324, 0.9935719, 0, -0.9935719, 0.11320324, 0, 0, 0, 1, 0, 0, 0.04)
+
+[node name="Box" type="MeshInstance3D" parent="Manecilla" unique_id=481284284]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+material_override = SubResource("StandardMaterial3D_sg6ej")
+mesh = SubResource("BoxMesh_yk0as")
+
+[node name="Manecilla2" type="Node3D" parent="." unique_id=329903242]
+transform = Transform3D(0.20791148, -0.9781476, 0, 0.9781476, 0.20791148, 0, 0, 0, 1, 0, 0, 0.04)
+
+[node name="Box" type="MeshInstance3D" parent="Manecilla2" unique_id=1871316414]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.075, 0)
+material_override = SubResource("StandardMaterial3D_sg6ej")
+mesh = SubResource("BoxMesh_dta7j")

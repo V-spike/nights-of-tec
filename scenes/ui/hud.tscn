@@ -19,6 +19,18 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_key"]
+bg_color = Color(0.05, 0.07, 0.12, 0.8)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.72, 0.35, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
 [node name="Hud" type="CanvasLayer" unique_id=2005424845]
 script = ExtResource("2_hud")
 
@@ -80,7 +92,7 @@ offset_bottom = -24.0
 theme_override_font_sizes/font_size = 15
 theme_override_colors/font_color = Color(0.62, 0.68, 0.78, 1)
 text = "WASD moverse · Shift correr · Ctrl agacharse
-F linterna · E interactuar"
+F linterna · Mantén E para interactuar"
 horizontal_alignment = 2
 vertical_alignment = 1
 
@@ -133,6 +145,37 @@ theme_override_colors/font_color = Color(0.4, 0.33, 0.25, 1)
 text = "[E] o [Esc] para cerrar"
 horizontal_alignment = 2
 vertical_alignment = 1
+
+[node name="InteractPrompt" type="VBoxContainer" parent="Root"]
+visible = false
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = 40.0
+offset_right = 32.0
+offset_bottom = 120.0
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="KeyIcon" type="Label" parent="Root/InteractPrompt"]
+custom_minimum_size = Vector2(44, 44)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.95, 0.72, 0.35, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_key")
+text = "E"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HoldBar" type="ProgressBar" parent="Root/InteractPrompt"]
+custom_minimum_size = Vector2(64, 6)
+layout_mode = 2
+max_value = 1.0
+show_percentage = false
 
 [node name="FadeRect" type="ColorRect" parent="Root" unique_id=293106905]
 layout_mode = 0

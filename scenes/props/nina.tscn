@@ -1,0 +1,193 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="Mat_Vestido"]
+albedo_color = Color(0.62, 0.6, 0.55, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_Piel"]
+albedo_color = Color(0.5, 0.54, 0.56, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Mat_Pelo"]
+albedo_color = Color(0, 0, 0, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_Negro"]
+albedo_color = Color(0, 0, 0, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_Pupila"]
+albedo_color = Color(1, 1, 1, 1)
+emission_enabled = true
+emission = Color(0.9, 0.95, 1, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="CylinderMesh" id="Mesh_Vestido"]
+material = SubResource("Mat_Vestido")
+top_radius = 0.13
+bottom_radius = 0.3
+height = 0.8
+
+[sub_resource type="CylinderMesh" id="Mesh_PiernaI"]
+material = SubResource("Mat_Piel")
+top_radius = 0.035
+bottom_radius = 0.03
+height = 0.2
+
+[sub_resource type="CylinderMesh" id="Mesh_PiernaD"]
+material = SubResource("Mat_Piel")
+top_radius = 0.035
+bottom_radius = 0.03
+height = 0.2
+
+[sub_resource type="CylinderMesh" id="Mesh_BrazoI"]
+material = SubResource("Mat_Piel")
+top_radius = 0.035
+bottom_radius = 0.028
+height = 0.6
+
+[sub_resource type="CylinderMesh" id="Mesh_BrazoD"]
+material = SubResource("Mat_Piel")
+top_radius = 0.035
+bottom_radius = 0.028
+height = 0.6
+
+[sub_resource type="CylinderMesh" id="Mesh_Cuello"]
+material = SubResource("Mat_Piel")
+top_radius = 0.04
+bottom_radius = 0.045
+height = 0.12
+
+[sub_resource type="SphereMesh" id="Mesh_Cabeza"]
+material = SubResource("Mat_Piel")
+radius = 0.12
+height = 0.27
+
+[sub_resource type="SphereMesh" id="Mesh_PeloCasco"]
+material = SubResource("Mat_Pelo")
+radius = 0.13
+height = 0.29
+
+[sub_resource type="BoxMesh" id="Mesh_PeloLargo"]
+material = SubResource("Mat_Pelo")
+size = Vector3(0.3, 0.7, 0.07)
+
+[sub_resource type="BoxMesh" id="Mesh_MechonI"]
+material = SubResource("Mat_Pelo")
+size = Vector3(0.05, 0.5, 0.02)
+
+[sub_resource type="BoxMesh" id="Mesh_MechonD"]
+material = SubResource("Mat_Pelo")
+size = Vector3(0.05, 0.5, 0.02)
+
+[sub_resource type="SphereMesh" id="Mesh_OjoI"]
+material = SubResource("Mat_Negro")
+radius = 0.034
+height = 0.06
+
+[sub_resource type="SphereMesh" id="Mesh_OjoD"]
+material = SubResource("Mat_Negro")
+radius = 0.034
+height = 0.06
+
+[sub_resource type="SphereMesh" id="Mesh_PupilaI"]
+material = SubResource("Mat_Pupila")
+radius = 0.006
+height = 0.012
+
+[sub_resource type="SphereMesh" id="Mesh_PupilaD"]
+material = SubResource("Mat_Pupila")
+radius = 0.006
+height = 0.012
+
+[sub_resource type="BoxMesh" id="Mesh_LagrimaI"]
+material = SubResource("Mat_Negro")
+size = Vector3(0.008, 0.07, 0.01)
+
+[sub_resource type="BoxMesh" id="Mesh_LagrimaD"]
+material = SubResource("Mat_Negro")
+size = Vector3(0.008, 0.07, 0.01)
+
+[sub_resource type="BoxMesh" id="Mesh_Boca"]
+material = SubResource("Mat_Negro")
+size = Vector3(0.05, 0.11, 0.02)
+
+[node name="Nina" type="Node3D"]
+
+[node name="Vestido" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.000000, 0.000000, 0, -0.000000, 1.000000, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("Mesh_Vestido")
+
+[node name="PiernaI" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.000000, 0.000000, 0, -0.000000, 1.000000, 0, 0, 0, 1, -0.07, 0.1, 0)
+mesh = SubResource("Mesh_PiernaI")
+
+[node name="PiernaD" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.000000, 0.000000, 0, -0.000000, 1.000000, 0, 0, 0, 1, 0.07, 0.1, 0)
+mesh = SubResource("Mesh_PiernaD")
+
+[node name="BrazoI" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.990268, -0.139173, 0, 0.139173, 0.990268, 0, 0, 0, 1, -0.19, 0.62, 0.02)
+mesh = SubResource("Mesh_BrazoI")
+
+[node name="BrazoD" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.990268, 0.139173, 0, -0.139173, 0.990268, 0, 0, 0, 1, 0.19, 0.62, 0.02)
+mesh = SubResource("Mesh_BrazoD")
+
+[node name="Cuello" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.000000, 0.000000, 0, -0.000000, 1.000000, 0, 0, 0, 1, 0, 0.93, 0)
+mesh = SubResource("Mesh_Cuello")
+
+[node name="Cabeza" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.000000, 0.000000, 0, -0.000000, 1.000000, 0, 0, 0, 1, 0, 1.08, 0)
+mesh = SubResource("Mesh_Cabeza")
+
+[node name="PeloCasco" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.000000, 0.000000, 0, -0.000000, 1.000000, 0, 0, 0, 1, 0, 1.1, -0.025)
+mesh = SubResource("Mesh_PeloCasco")
+
+[node name="PeloLargo" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.000000, 0.000000, 0, -0.000000, 1.000000, 0, 0, 0, 1, 0, 0.82, -0.08)
+mesh = SubResource("Mesh_PeloLargo")
+
+[node name="MechonI" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.000000, 0.000000, 0, -0.000000, 1.000000, 0, 0, 0, 1, -0.1, 0.95, 0.085)
+mesh = SubResource("Mesh_MechonI")
+
+[node name="MechonD" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.000000, 0.000000, 0, -0.000000, 1.000000, 0, 0, 0, 1, 0.1, 0.95, 0.085)
+mesh = SubResource("Mesh_MechonD")
+
+[node name="OjoI" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.000000, 0.000000, 0, -0.000000, 1.000000, 0, 0, 0, 1, -0.045, 1.1, 0.095)
+mesh = SubResource("Mesh_OjoI")
+
+[node name="OjoD" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.000000, 0.000000, 0, -0.000000, 1.000000, 0, 0, 0, 1, 0.045, 1.1, 0.095)
+mesh = SubResource("Mesh_OjoD")
+
+[node name="PupilaI" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.000000, 0.000000, 0, -0.000000, 1.000000, 0, 0, 0, 1, -0.045, 1.1, 0.122)
+mesh = SubResource("Mesh_PupilaI")
+
+[node name="PupilaD" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.000000, 0.000000, 0, -0.000000, 1.000000, 0, 0, 0, 1, 0.045, 1.1, 0.122)
+mesh = SubResource("Mesh_PupilaD")
+
+[node name="LagrimaI" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.000000, 0.000000, 0, -0.000000, 1.000000, 0, 0, 0, 1, -0.045, 1.05, 0.108)
+mesh = SubResource("Mesh_LagrimaI")
+
+[node name="LagrimaD" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.000000, 0.000000, 0, -0.000000, 1.000000, 0, 0, 0, 1, 0.045, 1.05, 0.108)
+mesh = SubResource("Mesh_LagrimaD")
+
+[node name="Boca" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.000000, 0.000000, 0, -0.000000, 1.000000, 0, 0, 0, 1, 0, 1.005, 0.095)
+mesh = SubResource("Mesh_Boca")
+
+[node name="Luz" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0.5)
+light_color = Color(0.75, 0.85, 1, 1)
+light_energy = 0.5
+omni_range = 1.6

@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://c2q6bo7r0mg0y"]
 
-[ext_resource type="PackedScene" path="res://scenes/levels/level_ribs.tscn" id="1_0wfyh"]
+[ext_resource type="PackedScene" path="res://scenes/levels/level_edificio_e.tscn" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://b4ivstb584qxe" path="res://scenes/player/player.tscn" id="2_sugp2"]
 [ext_resource type="PackedScene" uid="uid://dfm6fbulsv1ap" path="res://scenes/ui/hud.tscn" id="3_hud"]
 
 [node name="Main" type="Node3D" unique_id=1186210561]
 
-[node name="LevelRibs" parent="." unique_id=1603170915 instance=ExtResource("1_0wfyh")]
+[node name="LevelEdificioE" parent="." instance=ExtResource("1_0wfyh")]
 
 [node name="Player" parent="." unique_id=1111197248 instance=ExtResource("2_sugp2")]
 

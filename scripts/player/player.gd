@@ -5,13 +5,17 @@ extends CharacterBody3D
 #¿está agachado? el guardia lo lee
 var crouching: bool = false
 #declaracion de estamina, velocidad al caminar, velocidad al correr
-@export var walk_speed: float = 3.0
-@export var run_speed: float = 5.5
-@export var stamina_drain: float = 0.25
+@export var walk_speed: float = 2.4
+@export var run_speed: float = 4.2
+@export var stamina_drain: float = 0.2
 @export var stamina_regen: float = 0.15
 @export var stamina_recover_at: float = 0.3
 @export var step_distance: float = 1.3 #metros entre pisadas
 @export var step_volume_db: float = -32.0 #más negativo = más bajito
+@export var interact_hold_time: float = 0.5 #segundos manteniendo E para tomar algo
+@export var scream_volume_db: float = -9.0
+#¿está corriendo? el guardia lo lee para escucharte
+var running: bool = false
 #Cansancio del jugador
 var exhausted: bool = false
 #Estamina del jugador maximo 1
@@ -26,7 +30,15 @@ var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var flashlight: SpotLight3D = $Head/Camera3D/Flashlight
 @onready var interact_ray: RayCast3D = $Head/Camera3D/InteractRay
 @onready var footsteps: AudioStreamPlayer = $Footsteps
+@onready var camera: Camera3D = $Head/Camera3D
+var base_fov: float = 75.0
+var shake_time: float = 0.0 #segundos que le quedan a la sacudida de cámara
+var scream: AudioStreamPlayer #grito del guardia cuando te atrapa
 var step_travel: float = 0.0 #metros recorridos desde la última pisada
+#interactuable que estás mirando y cuánto llevas cargando la E (el HUD los lee)
+var interact_target: Interactable = null
+var interact_progress: float = 0.0
+var interact_ready: bool = true #hay que soltar la E antes de volver a cargar
 
 #Cuando nace el jugador, esconde el cursor
 func _ready() -> void: 
@@ -34,6 +46,11 @@ func _ready() -> void:
 	#escucha la señal de captura del guardia
 	GameState.player_caught.connect(_on_caught)
 	GameState.game_over.connect(_on_game_over)
+	base_fov = camera.fov
+	scream = AudioStreamPlayer.new()
+	scream.stream = load("res://assets/audio/screamer_guardia.wav")
+	scream.volume_db = scream_volume_db
+	add_child(scream)
 		# Al nacer, ir al PlayerSpawn de lab_start
 	var spawn := get_tree().get_first_node_in_group("player_spawn") as Node3D
 	if spawn != null:
@@ -53,12 +70,38 @@ func _unhandled_input(event: InputEvent) -> void:
 		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-80), deg_to_rad(80))
 	if event.is_action_pressed("flashlight"):
 		flashlight.visible = not flashlight.visible
-		
-	if event.is_action_pressed("interact"):
-		if interact_ray.is_colliding():
-			var target = interact_ray.get_collider()
-			if target is Interactable:
-				target.interact()		
+
+#sacude la cámara mientras quede tiempo de sacudida
+func _process(delta: float) -> void:
+	if shake_time > 0.0:
+		shake_time -= delta
+		camera.h_offset = randf_range(-0.05, 0.05)
+		camera.v_offset = randf_range(-0.05, 0.05)
+	elif camera.h_offset != 0.0 or camera.v_offset != 0.0:
+		camera.h_offset = 0.0
+		camera.v_offset = 0.0
+
+func shake_camera(duration: float) -> void:
+	shake_time = duration
+
+#screamer: voltea la vista a la cara del guardia, grito, sacudida y zoom
+func screamer() -> void:
+	var guard := get_tree().get_first_node_in_group("guard") as Node3D
+	if guard != null:
+		var face := guard.global_position + Vector3(0, 1.85, 0)
+		var flat := face - global_position
+		flat.y = 0.0
+		if flat.length() > 0.01:
+			rotation.y = atan2(-flat.x, -flat.z)
+		var cam_pos := camera.global_position
+		var horizontal := Vector2(face.x - cam_pos.x, face.z - cam_pos.z).length()
+		head.rotation.x = atan2(face.y - cam_pos.y, horizontal)
+	flashlight.visible = true
+	scream.play()
+	shake_camera(0.9)
+	var tween := create_tween()
+	tween.tween_property(camera, "fov", 45.0, 0.12)
+
 func _physics_process(delta: float) -> void:
 	#1. Gravedad
 	if not is_on_floor():
@@ -73,7 +116,7 @@ func _physics_process(delta: float) -> void:
 	#velocidad actual 
 	#Pregunta si esta corriendo shift: presionado y dir: distinta a quieta
 	crouching = Input.is_action_pressed("crouch") and not GameState.input_locked
-	var running := Input.is_action_pressed("run") and input_dir != Vector2.ZERO and not exhausted and not crouching
+	running = Input.is_action_pressed("run") and input_dir != Vector2.ZERO and not exhausted and not crouching
 	var speed := walk_speed
 	if running:
 		speed = run_speed
@@ -110,11 +153,33 @@ func _physics_process(delta: float) -> void:
 			footsteps.play()
 	else:
 		step_travel = step_distance
+	update_interact(delta)
+
+#mantener E sobre un interactuable llena la barra; al llenarse, interactúa
+func update_interact(delta: float) -> void:
+	interact_target = null
+	if not GameState.input_locked and interact_ray.is_colliding():
+		var target := interact_ray.get_collider() as Interactable
+		#una puerta ya abierta no se ofrece
+		if target != null and not target.get("is_open"):
+			interact_target = target
+	var holding := Input.is_action_pressed("interact")
+	if not holding:
+		interact_ready = true
+	if interact_target == null or not holding or not interact_ready:
+		interact_progress = 0.0
+		return
+	interact_progress += delta / interact_hold_time
+	if interact_progress >= 1.0:
+		interact_progress = 0.0
+		interact_ready = false
+		interact_target.interact()
 #el guardia te atrapó: bloquear, teletransportar y soltar
 func _on_caught() -> void:
 	GameState.input_locked = true
+	screamer()
 	#espera a que la pantalla esté negra
-	await get_tree().create_timer(0.6).timeout
+	await get_tree().create_timer(1.3).timeout
 	var respawn := get_tree().get_first_node_in_group("capture_respawn") as Node3D
 	if respawn == null:
 		push_warning("Falta un Marker3D en el grupo capture_respawn")
@@ -122,16 +187,18 @@ func _on_caught() -> void:
 		global_position = respawn.global_position
 		rotation.y = respawn.global_rotation.y
 	head.rotation.x = 0.0
+	camera.fov = base_fov
 	velocity = Vector3.ZERO
 	stamina = 1.0
 	exhausted = false
 	GameState.stamina_changed.emit(stamina)
 	#espera a que la pantalla vuelva y suelta el candado
-	await get_tree().create_timer(1.4).timeout
+	await get_tree().create_timer(1.0).timeout
 	GameState.input_locked = false
 #segunda captura: congelar, esperar y reiniciar todo
 func _on_game_over() -> void:
 	GameState.input_locked = true
-	await get_tree().create_timer(1.5).timeout
+	screamer()
+	await get_tree().create_timer(2.5).timeout
 	GameState.reset()
 	get_tree().reload_current_scene()

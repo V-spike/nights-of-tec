@@ -27,11 +27,19 @@ anchor_bottom = 1.0
 layout_mode = 2
 theme_override_constants/separation = 14
 
+[node name="WinLabel" type="Label" parent="Center/Box"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 80
+theme_override_colors/font_color = Color(0.95, 0.72, 0.35, 1)
+text = "¡HAS GANADO!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="TitleLabel" type="Label" parent="Center/Box" unique_id=320557763]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 40
 theme_override_colors/font_color = Color(0.91, 0.95, 1, 1)
-text = "FIN DEL DEMO"
+text = "Escapaste del Edificio E  ·  FIN DEL DEMO"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -39,8 +47,8 @@ vertical_alignment = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 theme_override_colors/font_color = Color(0.62, 0.68, 0.78, 1)
-text = "Encontraste la primera pista del Proyecto Aurora.
-La historia continúa..."
+text = "Saliste con vida y descubriste el Proyecto Aurora.
+Pero AURORA sigue despierto... La historia continúa."
 horizontal_alignment = 1
 vertical_alignment = 1
 
