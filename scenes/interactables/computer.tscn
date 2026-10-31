@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/interactables/note.gd" id="1_fwk0y"]
+[ext_resource type="PackedScene" path="res://assets/models/monitor.glb" id="2_i2vfj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_teir3"]
+size = Vector3(0.55, 0.48999998, 0.23)
+
+[node name="Computer" type="StaticBody3D" unique_id=678762739]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_fwk0y")
+
+[node name="Model" parent="." unique_id=792752110 instance=ExtResource("2_i2vfj")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2064765993]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21999998, 0)
+shape = SubResource("BoxShape3D_teir3")
+
+[node name="Pantalla" type="OmniLight3D" parent="." unique_id=1782501296]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21999998, 0.39000002)
+light_color = Color(0.55, 0.7, 1, 1)
+light_energy = 0.6
+omni_range = 2.5

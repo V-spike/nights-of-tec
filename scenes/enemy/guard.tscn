@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bxshw2chmpc21" path="res://assets/models/guard.glb" id="2_a2f56"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hfuxe"]
-radius = 0.4
+radius = 0.3
 height = 2.0
 
 [node name="Guard" type="CharacterBody3D" unique_id=1824659354]
@@ -18,7 +18,7 @@ shape = SubResource("CapsuleShape3D_hfuxe")
 [node name="Model" parent="." unique_id=547293199 instance=ExtResource("2_a2f56")]
 
 [node name="Agent" type="NavigationAgent3D" parent="." unique_id=1450071234]
-path_desired_distance = 0.6
+path_desired_distance = 0.25
 target_desired_distance = 0.6
 height = 2.0
-radius = 0.4
+radius = 0.3

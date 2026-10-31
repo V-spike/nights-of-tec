@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/interactables/screamer_zone.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://scenes/props/nina.tscn" id="2_nina"]
+[ext_resource type="AudioStream" path="res://assets/audio/screamer_nina.wav" id="3_grito"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_zone"]
+size = Vector3(1, 2, 1.4)
+
+[node name="ScreamerZone" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_zone")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_zone")
+
+[node name="Nina" parent="." instance=ExtResource("2_nina")]
+top_level = true
+
+[node name="Scream" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_grito")
+volume_db = -9.0
