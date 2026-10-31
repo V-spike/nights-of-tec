@@ -11,6 +11,9 @@ extends CanvasLayer
 @onready var interact_bar: ProgressBar = $Root/InteractPrompt/HoldBar
 
 var player: Node
+var using_pad: bool = false # ¿lo último que tocó fue el mando?
+const KEYS_TEXT := "WASD moverse · Shift correr · Ctrl agacharse\nF linterna · Mantén E para interactuar"
+const PAD_TEXT := "LS moverse · RS mirar · L3 correr · B agacharse\nY linterna · Mantén A para interactuar"
 
 var hint_count: int = 0
 
@@ -43,8 +46,12 @@ func _on_note_opened(text: String) -> void:
 	note_panel.show()
 	GameState.input_locked = true
 
-# Cierra la nota con E o Esc
+# Cambia los textos según uses teclado o mando, y cierra la nota con E/X o Esc/B
 func _input(event: InputEvent) -> void:
+	if event is InputEventJoypadButton or (event is InputEventJoypadMotion and absf(event.axis_value) > 0.5):
+		set_pad(true)
+	elif event is InputEventKey or event is InputEventMouseButton:
+		set_pad(false)
 	if not note_panel.visible:
 		return
 	if event.is_action_pressed("interact") or event.is_action_pressed("ui_cancel"):
@@ -53,6 +60,14 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 # Muestra la pista 2.5 s; si llega otra antes, la nueva no se esconde antes de tiempo
+func set_pad(value: bool) -> void:
+	if value == using_pad:
+		return
+	using_pad = value
+	$Root/InteractPrompt/KeyIcon.text = "A" if using_pad else "E"
+	$Root/ControlsLabel.text = PAD_TEXT if using_pad else KEYS_TEXT
+	$Root/NotePanel/Box/CloseHint.text = "[A] o [B] para cerrar" if using_pad else "[E] o [Esc] para cerrar"
+
 func _on_hint_shown(text: String) -> void:
 	hint_label.text = text
 	hint_label.show()

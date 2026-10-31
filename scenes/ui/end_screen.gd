@@ -13,9 +13,9 @@ func _ready() -> void:
 		await get_tree().create_timer(1.0).timeout
 	_go_to_menu()
 
-# Cualquier tecla o clic regresa al menú sin esperar
+# Cualquier tecla, clic o botón del mando regresa al menú sin esperar
 func _unhandled_input(event: InputEvent) -> void:
-	if (event is InputEventKey or event is InputEventMouseButton) and event.pressed:
+	if (event is InputEventKey or event is InputEventMouseButton or event is InputEventJoypadButton) and event.pressed:
 		_go_to_menu()
 
 func _go_to_menu() -> void:
