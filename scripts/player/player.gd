@@ -4,6 +4,9 @@ extends CharacterBody3D
 @export var crouch_head_height: float = 1.0
 #¿está agachado? el guardia lo lee
 var crouching: bool = false
+#con mando: B agacha/levanta y L3 activa correr hasta que te detengas
+var crouch_toggled: bool = false
+var sprint_toggled: bool = false
 #declaracion de estamina, velocidad al caminar, velocidad al correr
 @export var walk_speed: float = 2.4
 @export var run_speed: float = 4.2
@@ -26,6 +29,7 @@ var last_stamina: float = 1.0
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 @export var mouse_sensitivity: float = 0.002
+@export var joy_sensitivity: float = 4.5 #giro con el stick derecho del mando (radianes por segundo)
 @onready var head: Node3D = $Head
 @onready var flashlight: SpotLight3D = $Head/Camera3D/Flashlight
 @onready var interact_ray: RayCast3D = $Head/Camera3D/InteractRay
@@ -59,10 +63,17 @@ func _ready() -> void:
 #cuando el usuario presiona una tecla o mueve el mouse
 func _unhandled_input(event: InputEvent) -> void:
 	#pregunta si la entrada es "esc" asociada a ui cancel, activa el cursor
-	if event.is_action_pressed("ui_cancel"):
+	#solo Esc del teclado suelta el mouse (B del mando es agacharse)
+	if event is InputEventKey and event.is_action_pressed("ui_cancel"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	if GameState.input_locked:
 		return
+	if event.is_action_pressed("crouch_toggle"):
+		crouch_toggled = not crouch_toggled
+		sprint_toggled = false
+	if event.is_action_pressed("run_toggle"):
+		sprint_toggled = true
+		crouch_toggled = false
 	if event is InputEventMouseMotion:
 		rotate_y(-event.relative.x * mouse_sensitivity)
 		head.rotate_x(-event.relative.y * mouse_sensitivity)
@@ -111,12 +122,21 @@ func _physics_process(delta: float) -> void:
 	#Si el candado no está puesto, puede moverse el jugador
 	if not GameState.input_locked:
 		input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	#mirar con el stick derecho del mando (al cuadrado: suave al centro, rápido al fondo)
+	if not GameState.input_locked:
+		var look := Input.get_vector("look_left", "look_right", "look_up", "look_down")
+		look *= look.length()
+		rotate_y(-look.x * joy_sensitivity * delta)
+		head.rotate_x(-look.y * joy_sensitivity * delta)
+		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-80), deg_to_rad(80))
 	#direccion del mundo 
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	#velocidad actual 
 	#Pregunta si esta corriendo shift: presionado y dir: distinta a quieta
-	crouching = Input.is_action_pressed("crouch") and not GameState.input_locked
-	running = Input.is_action_pressed("run") and input_dir != Vector2.ZERO and not exhausted and not crouching
+	if input_dir == Vector2.ZERO or exhausted:
+		sprint_toggled = false
+	crouching = (Input.is_action_pressed("crouch") or crouch_toggled) and not GameState.input_locked
+	running = (Input.is_action_pressed("run") or sprint_toggled) and input_dir != Vector2.ZERO and not exhausted and not crouching
 	var speed := walk_speed
 	if running:
 		speed = run_speed
