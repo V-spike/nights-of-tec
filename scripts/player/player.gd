@@ -62,10 +62,7 @@ func _ready() -> void:
 		rotation.y = spawn.global_rotation.y
 #cuando el usuario presiona una tecla o mueve el mouse
 func _unhandled_input(event: InputEvent) -> void:
-	#pregunta si la entrada es "esc" asociada a ui cancel, activa el cursor
-	#solo Esc del teclado suelta el mouse (B del mando es agacharse)
-	if event is InputEventKey and event.is_action_pressed("ui_cancel"):
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	#Esc / Start abre el menú de pausa (pause_menu.gd), que suelta el mouse
 	if GameState.input_locked:
 		return
 	if event.is_action_pressed("crouch_toggle"):

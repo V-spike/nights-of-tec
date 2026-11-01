@@ -1,0 +1,51 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/pause_menu.gd" id="1_pause"]
+[ext_resource type="Theme" path="res://scenes/ui/nights_theme.tres" id="2_theme"]
+
+[node name="PauseMenu" type="CanvasLayer"]
+process_mode = 3
+layer = 10
+script = ExtResource("1_pause")
+
+[node name="Dim" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.75)
+
+[node name="Center" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource("2_theme")
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+
+[node name="Box" type="VBoxContainer" parent="Center/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Center/Panel/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.72, 0.35, 1)
+theme_override_font_sizes/font_size = 40
+text = "PAUSA"
+horizontal_alignment = 1
+
+[node name="ContinueButton" type="Button" parent="Center/Panel/Box"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "CONTINUAR"
+
+[node name="MenuButton" type="Button" parent="Center/Panel/Box"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "VOLVER AL MENÚ"
+
+[node name="QuitButton" type="Button" parent="Center/Panel/Box"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "SALIR DEL JUEGO"

@@ -12,8 +12,8 @@ extends CanvasLayer
 
 var player: Node
 var using_pad: bool = false # ¿lo último que tocó fue el mando?
-const KEYS_TEXT := "WASD moverse · Shift correr · Ctrl agacharse\nF linterna · Mantén E para interactuar"
-const PAD_TEXT := "LS moverse · RS mirar · L3 correr · B agacharse\nY linterna · Mantén A para interactuar"
+const KEYS_TEXT := "WASD moverse · Shift correr · Ctrl agacharse\nF linterna · Mantén E para interactuar · Esc pausa"
+const PAD_TEXT := "LS moverse · RS mirar · L3 correr · B agacharse\nY linterna · Mantén A para interactuar · Start pausa"
 
 var hint_count: int = 0
 
@@ -26,6 +26,7 @@ func _ready() -> void:
 	GameState.game_over.connect(_on_game_over)
 	GameState.level_won.connect(_on_level_won)
 	player = get_tree().get_first_node_in_group("player")
+	add_child(load("res://scenes/ui/pause_menu.tscn").instantiate())
 
 # Icono de la E y barra de carga cuando miras algo con lo que puedes interactuar
 func _process(_delta: float) -> void:

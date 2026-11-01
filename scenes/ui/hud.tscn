@@ -92,7 +92,7 @@ offset_bottom = -24.0
 theme_override_font_sizes/font_size = 15
 theme_override_colors/font_color = Color(0.62, 0.68, 0.78, 1)
 text = "WASD moverse · Shift correr · Ctrl agacharse
-F linterna · Mantén E para interactuar"
+F linterna · Mantén E para interactuar · Esc pausa"
 horizontal_alignment = 2
 vertical_alignment = 1
 
