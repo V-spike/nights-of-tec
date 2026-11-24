@@ -1,0 +1,10 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/player/view_model.gd" id="1_vm"]
+[ext_resource type="PackedScene" path="res://assets/models/manos_linterna.glb" id="2_hands"]
+
+[node name="ViewModel" type="Node3D"]
+transform = Transform3D(0.996195, 0.0348995, -0.0796, -0.0257, 0.993, 0.1155, 0.0831, -0.1131, 0.99, 0.11, -0.12, -0.28)
+script = ExtResource("1_vm")
+
+[node name="Modelo" parent="." instance=ExtResource("2_hands")]
