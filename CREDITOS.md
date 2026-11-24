@@ -1,5 +1,11 @@
 # Créditos y licencias de recursos — Nights of Tec v1.1
 
+## Equipo
+- **Axel Rodríguez Flores**: programación y lógica
+- **Daniel Morales Montero**: mundo y pantallas
+- **Christopher Dorantes Viveros**: arte 3D en Blender
+- Profesor: **Fidel Flores**
+
 Todos los recursos externos son **libres** y permiten uso en proyectos escolares y comerciales.
 
 ## Texturas PBR (ambientCG — licencia CC0, dominio público)
