@@ -1,0 +1,103 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/options_menu.gd" id="1_opt"]
+[ext_resource type="Theme" uid="uid://cob1ioebdfqid" path="res://scenes/ui/nights_theme.tres" id="2_theme"]
+
+[node name="OptionsMenu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_opt")
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+custom_minimum_size = Vector2(820, 600)
+layout_mode = 2
+
+[node name="Box" type="VBoxContainer" parent="Center/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Center/Panel/Box"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+theme_override_font_sizes/font_size = 44
+text = "Opciones"
+
+[node name="Tabs" type="TabContainer" parent="Center/Panel/Box"]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="GRÁFICOS" type="ScrollContainer" parent="Center/Panel/Box/Tabs"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+metadata/_tab_index = 0
+
+[node name="Graficos" type="VBoxContainer" parent="Center/Panel/Box/Tabs/GRÁFICOS"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="AUDIO" type="ScrollContainer" parent="Center/Panel/Box/Tabs"]
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+metadata/_tab_index = 1
+
+[node name="Audio" type="VBoxContainer" parent="Center/Panel/Box/Tabs/AUDIO"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="CONTROLES" type="ScrollContainer" parent="Center/Panel/Box/Tabs"]
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+metadata/_tab_index = 2
+
+[node name="Controles" type="VBoxContainer" parent="Center/Panel/Box/Tabs/CONTROLES"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Buttons" type="HBoxContainer" parent="Center/Panel/Box"]
+layout_mode = 2
+alignment = 2
+theme_override_constants/separation = 12
+
+[node name="ResetButton" type="Button" parent="Center/Panel/Box/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "RESTABLECER"
+
+[node name="BackButton" type="Button" parent="Center/Panel/Box/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "VOLVER"
