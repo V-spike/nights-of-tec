@@ -82,19 +82,21 @@ hb=thump(0.0,1.0)+thump(0.22,0.7,42)
 hb=lp(hb,160)
 save('latido',hb)
 
-# 4) Respiración agitada (loop: 2 ciclos inhala/exhala); pitch_scale controla la velocidad
+# 4) Respiración agitada (loop: 2 ciclos inhala/exhala de ~2.4 s); pitch_scale ajusta la velocidad
+#    v1.1b: más lenta y suave (antes sonaba demasiado acelerada). Usa su propio rng.
+rng_b=np.random.default_rng(11)
 def breath(dur,inhale,amp):
-    d=t(dur); x=rng.standard_normal(len(d))
+    d=t(dur); x=rng_b.standard_normal(len(d))
     if inhale:
-        x=bp(x,900,4200)*0.6+bp(x,350,900)*0.25
-        env=np.sin(np.pi*np.clip(d/dur,0,1))**1.5
+        x=bp(x,700,3200)*0.5+bp(x,250,700)*0.3
+        env=np.sin(np.pi*np.clip(d/dur,0,1))**2
     else:
-        x=bp(x,500,2600)*0.8+bp(x,150,500)*0.3
-        env=(1-np.exp(-d*25))*np.exp(-d*3.2)
+        x=bp(x,400,2200)*0.7+bp(x,120,400)*0.35
+        env=(1-np.exp(-d*12))*np.exp(-d*2.2)
     return x*env*amp
 seq=[]
 for i in range(2):
-    seq+= [breath(0.55,True,0.7),np.zeros(int(0.05*SR)),breath(0.75,False,1.0),np.zeros(int(0.12*SR))]
+    seq+= [breath(0.8,True,0.55),np.zeros(int(0.15*SR)),breath(1.0,False,0.85),np.zeros(int(0.45*SR))]
 br=np.concatenate(seq)
 save('respiracion',reverb(br,0.5,0.12,5000))
 
