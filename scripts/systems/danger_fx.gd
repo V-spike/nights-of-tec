@@ -8,7 +8,7 @@ extends CanvasLayer
 #       * 0.35 si anda buscándote
 #   - Viñeta (shader vineta.gdshader): se cierra y se pone roja con el peligro.
 #     Además "respira": se abre y se cierra al ritmo de la respiración.
-#   - Respiración agitada: suena al correr, al estar cansado o con peligro.
+#   - Respiración agitada: suena solo al correr o cuando el guardia te persigue.
 #   - Latido: cada vez más rápido y fuerte mientras más cerca está el guardia.
 #   - Aguijón (stinger): golpe musical la primera vez que el guardia te ve.
 # =============================================================================
@@ -70,20 +70,19 @@ func _process(delta: float) -> void:
 		stinger_cooldown = 10.0
 	was_chasing = chasing
 
-	# ---- 3. Respiración: cansancio o miedo, lo que sea mayor
-	var stamina: float = player.get("stamina") if "stamina" in player else 1.0
-	var exertion := 1.0 - stamina
-	if player.get("running"):
-		exertion = maxf(exertion, 0.55)
-	if player.get("exhausted"):
-		exertion = 1.0
-	var breath_target := maxf(danger, exertion * 0.85)
-	breath_level = move_toward(breath_level, breath_target, 0.5 * delta)
+	# ---- 3. Respiración: SOLO cuando corres o el guardia te persigue
+	#    (al dejar de correr se va apagando poco a poco, como cuando recuperas el aire)
+	var breath_target := 0.0
+	if chasing:
+		breath_target = 0.8
+	elif player.get("running"):
+		breath_target = 0.5
+	breath_level = move_toward(breath_level, breath_target, 0.35 * delta)
 	if breath_level > 0.06:
 		if not breathing.playing:
 			breathing.play()
-		breathing.volume_db = lerpf(-30.0, -4.0, breath_level)
-		breathing.pitch_scale = lerpf(0.8, 1.3, breath_level) # más rápido = más agitado
+		breathing.volume_db = lerpf(-28.0, -8.0, breath_level)
+		breathing.pitch_scale = lerpf(0.92, 1.08, breath_level) # apenas un poco más rápida con miedo
 	elif breathing.playing:
 		breathing.volume_db = move_toward(breathing.volume_db, -60.0, 30.0 * delta)
 		if breathing.volume_db <= -59.0:

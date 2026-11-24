@@ -41,7 +41,7 @@ func _ready() -> void:
 	get_parent().add_child.call_deferred(wall_ray)
 	_find_lens()
 	bounce = OmniLight3D.new()
-	bounce.light_energy = 0.25
+	bounce.light_energy = 0.12
 	bounce.omni_range = 0.6
 	bounce.light_color = Color(1, 0.9, 0.8)
 	bounce.position = Vector3(-0.05, 0.08, -0.2)

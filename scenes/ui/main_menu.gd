@@ -55,7 +55,7 @@ func _on_play() -> void:
 	tween.tween_property(self, "modulate", Color.BLACK, 1.0)
 	tween.tween_property($Music, "volume_db", -40.0, 1.0)
 	await tween.finished
-	get_tree().change_scene_to_file("res://scenes/ui/IntroScreen.tscn")
+	get_tree().change_scene_to_file("res://scenes/ui/intro_cinematica.tscn") # primero la cinemática
 
 
 func _on_options() -> void:
