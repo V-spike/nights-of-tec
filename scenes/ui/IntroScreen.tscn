@@ -29,15 +29,15 @@ theme_override_constants/separation = 14
 
 [node name="TimeLabel" type="Label" parent="Center/Box" unique_id=1961532167]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.91, 0.95, 1, 1)
-theme_override_font_sizes/font_size = 72
+theme_type_variation = &"TitleLabel"
+theme_override_font_sizes/font_size = 84
 text = "2:47 a.m."
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="StoryLabel" type="Label" parent="Center/Box" unique_id=1316574468]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.62, 0.68, 0.78, 1)
+theme_override_colors/font_color = Color(0.58, 0.55, 0.5, 1)
 theme_override_font_sizes/font_size = 22
 text = "Te quedaste dormido en el laboratorio.
 El edificio está cerrado."

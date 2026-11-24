@@ -15,6 +15,8 @@ var sprint_toggled: bool = false
 @export var stamina_recover_at: float = 0.3
 @export var step_distance: float = 1.3 #metros entre pisadas
 @export var step_volume_db: float = -32.0 #más negativo = más bajito
+@export var bob_walk: float = 0.022 #cuánto baja la cámara en cada paso al caminar
+@export var bob_run: float = 0.045 #y al correr
 @export var interact_hold_time: float = 0.5 #segundos manteniendo E para tomar algo
 @export var scream_volume_db: float = -9.0
 #¿está corriendo? el guardia lo lee para escucharte
@@ -28,7 +30,15 @@ var last_stamina: float = 1.0
 #gravedad del juego
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+# La sensibilidad, invertir Y y el campo de visión vienen del menú de Opciones
+# (autoload Settings). Este valor solo se usa si Settings no existe.
 @export var mouse_sensitivity: float = 0.002
+var invert_y: bool = false
+var head_bob_enabled: bool = true
+var bob_amount: float = 0.0 #intensidad actual del bamboleo (sube y baja suave)
+var step_side: float = 1.0 #alterna pie izquierdo/derecho
+var grass_steps: AudioStreamRandomizer #pasos sobre pasto (afuera)
+var floor_steps: AudioStream #pasos sobre el piso del edificio
 @export var joy_sensitivity: float = 4.5 #giro con el stick derecho del mando (radianes por segundo)
 @onready var head: Node3D = $Head
 @onready var flashlight: SpotLight3D = $Head/Camera3D/Flashlight
@@ -50,16 +60,33 @@ func _ready() -> void:
 	#escucha la señal de captura del guardia
 	GameState.player_caught.connect(_on_caught)
 	GameState.game_over.connect(_on_game_over)
-	base_fov = camera.fov
+	apply_settings()
+	Settings.changed.connect(apply_settings)
 	scream = AudioStreamPlayer.new()
 	scream.stream = load("res://assets/audio/screamer_guardia.wav")
 	scream.volume_db = scream_volume_db
+	scream.bus = &"SFX"
+	#pasos: el del piso viene de la escena; el de pasto lo armamos aquí
+	floor_steps = footsteps.stream
+	grass_steps = AudioStreamRandomizer.new()
+	grass_steps.random_pitch = 1.1
+	grass_steps.random_volume_offset_db = 2.0
+	for i in 4:
+		grass_steps.add_stream(-1, load("res://assets/audio/paso_pasto_%d.ogg" % i))
 	add_child(scream)
 		# Al nacer, ir al PlayerSpawn de lab_start
 	var spawn := get_tree().get_first_node_in_group("player_spawn") as Node3D
 	if spawn != null:
 		global_position = spawn.global_position
 		rotation.y = spawn.global_rotation.y
+#lee las opciones del menú (se llama al iniciar y cada vez que cambian)
+func apply_settings() -> void:
+	mouse_sensitivity = Settings.values["mouse_sensitivity"]
+	invert_y = Settings.values["invert_y"]
+	base_fov = Settings.values["fov"]
+	head_bob_enabled = Settings.values.get("head_bob", true)
+	camera.fov = base_fov
+
 #cuando el usuario presiona una tecla o mueve el mouse
 func _unhandled_input(event: InputEvent) -> void:
 	#Esc / Start abre el menú de pausa (pause_menu.gd), que suelta el mouse
@@ -73,7 +100,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		crouch_toggled = false
 	if event is InputEventMouseMotion:
 		rotate_y(-event.relative.x * mouse_sensitivity)
-		head.rotate_x(-event.relative.y * mouse_sensitivity)
+		var y_sign := -1.0 if invert_y else 1.0
+		head.rotate_x(-event.relative.y * mouse_sensitivity * y_sign)
 		#clamp es un minimo y un maximo, detiene la rotacion si se llega al min o max
 		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-80), deg_to_rad(80))
 	if event.is_action_pressed("flashlight"):
@@ -166,11 +194,44 @@ func _physics_process(delta: float) -> void:
 		step_travel += horizontal_speed * delta
 		if step_travel >= step_distance:
 			step_travel = 0.0
-			footsteps.volume_db = step_volume_db - 10.0 if crouching else step_volume_db
-			footsteps.play()
+			step_side = -step_side
+			play_footstep()
 	else:
 		step_travel = step_distance
+	update_head_bob(delta, horizontal_speed)
 	update_interact(delta)
+
+#un paso: elige el sonido según el piso y ajusta volumen (agachado = bajito, corriendo = fuerte)
+func play_footstep() -> void:
+	footsteps.stream = grass_steps if on_grass() else floor_steps
+	var vol := step_volume_db
+	if crouching:
+		vol -= 10.0
+	elif running:
+		vol += 4.0
+	footsteps.volume_db = vol
+	footsteps.pitch_scale = 1.08 if running else 1.0
+	footsteps.play()
+
+#rayo hacia abajo: si pisamos el terreno de afuera ("Exterior") es pasto
+func on_grass() -> bool:
+	var from := global_position + Vector3.UP * 0.3
+	var query := PhysicsRayQueryParameters3D.create(from, from + Vector3.DOWN * 0.8)
+	query.exclude = [get_rid()]
+	var hit := get_world_3d().direct_space_state.intersect_ray(query)
+	return not hit.is_empty() and hit.collider.name == "Exterior"
+
+#bamboleo de cámara sincronizado con los pasos: baja justo cuando el pie pisa
+func update_head_bob(delta: float, horizontal_speed: float) -> void:
+	var target := 0.0
+	if head_bob_enabled and is_on_floor() and horizontal_speed > 0.1:
+		target = bob_run if running else bob_walk
+		if crouching:
+			target *= 0.5
+	bob_amount = move_toward(bob_amount, target, 0.2 * delta)
+	var t := clampf(step_travel / step_distance, 0.0, 1.0)
+	var lift := sin(t * PI) #0 al pisar, 1 a mitad del paso
+	camera.position = Vector3(lift * bob_amount * 0.5 * step_side, -(1.0 - lift) * bob_amount, 0.0)
 
 #mantener E sobre un interactuable llena la barra; al llenarse, interactúa
 func update_interact(delta: float) -> void:

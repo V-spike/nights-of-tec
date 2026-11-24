@@ -1,76 +1,210 @@
 [gd_scene format=3 uid="uid://c7rmqnkhr2nay"]
 
-[ext_resource type="Theme" path="res://scenes/ui/nights_theme.tres" id="1_sl1te"]
+[ext_resource type="Theme" uid="uid://cob1ioebdfqid" path="res://scenes/ui/nights_theme.tres" id="1_sl1te"]
 [ext_resource type="Script" uid="uid://c8on8vkinybqa" path="res://scenes/ui/main_menu.gd" id="2_menu"]
+[ext_resource type="Texture2D" path="res://assets/ui/menu_fondo.jpg" id="3_bg"]
+[ext_resource type="Shader" path="res://assets/shaders/vineta.gdshader" id="4_vig"]
+[ext_resource type="PackedScene" path="res://scenes/ui/options_menu.tscn" id="5_opt"]
+[ext_resource type="AudioStream" path="res://assets/audio/menu_musica.ogg" id="6_music"]
+[ext_resource type="Script" path="res://scripts/systems/loop_player.gd" id="7_loop"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_menu"]
+shader = ExtResource("4_vig")
+shader_parameter/intensity = 0.75
+shader_parameter/red_amount = 0.35
+shader_parameter/grain = 0.06
+shader_parameter/aberration = 0.002
+shader_parameter/desaturate = 0.25
 
 [node name="MainMenu" type="Control" unique_id=1198328930]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("1_sl1te")
 script = ExtResource("2_menu")
 
-[node name="Background" type="ColorRect" parent="." unique_id=876417242]
-layout_mode = 0
+[node name="Black" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-color = Color(0.03, 0.05, 0.086, 1)
+color = Color(0, 0, 0, 1)
 
-[node name="Center" type="CenterContainer" parent="." unique_id=2126693287]
-layout_mode = 0
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("3_bg")
+expand_mode = 1
+stretch_mode = 6
 
-[node name="MenuContainer" type="VBoxContainer" parent="Center" unique_id=1724463678]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Title" type="Label" parent="Center/MenuContainer" unique_id=1136854655]
-layout_mode = 2
-theme_override_font_sizes/font_size = 72
-theme_override_colors/font_color = Color(0.91, 0.95, 1, 1)
-text = "NIGHTS OF TEC"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Subtitle" type="Label" parent="Center/MenuContainer" unique_id=103993975]
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(0.62, 0.68, 0.78, 1)
-text = "2:47 a.m.  ·  No estás solo en el campus."
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Gap" type="Control" parent="Center/MenuContainer" unique_id=886056999]
-custom_minimum_size = Vector2(0, 36)
-layout_mode = 2
-
-[node name="PlayButton" type="Button" parent="Center/MenuContainer" unique_id=321104667]
-custom_minimum_size = Vector2(300, 60)
-layout_mode = 2
-size_flags_horizontal = 4
-text = "JUGAR"
-
-[node name="QuitButton" type="Button" parent="Center/MenuContainer" unique_id=2144044379]
-custom_minimum_size = Vector2(300, 60)
-layout_mode = 2
-size_flags_horizontal = 4
-text = "SALIR"
-
-[node name="ControlsLabel" type="Label" parent="." unique_id=1887672375]
-layout_mode = 0
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
+[node name="Flicker" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -500.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="LeftShade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 620.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.45)
+
+[node name="Vignette" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_menu")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 620.0
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 90
+theme_override_constants/margin_bottom = 70
+
+[node name="Column" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Margin/Column"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+theme_override_font_sizes/font_size = 84
+text = "NIGHTS
+OF TEC"
+
+[node name="Subtitle" type="Label" parent="Margin/Column"]
+layout_mode = 2
+theme_type_variation = &"SubtitleLabel"
+text = "2:47 a.m.  ·  No estás solo en el campus."
+
+[node name="Gap" type="Control" parent="Margin/Column"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Buttons" type="VBoxContainer" parent="Margin/Column"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="PlayButton" type="Button" parent="Margin/Column/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "JUGAR"
+alignment = 0
+
+[node name="OptionsButton" type="Button" parent="Margin/Column/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "OPCIONES"
+alignment = 0
+
+[node name="CreditsButton" type="Button" parent="Margin/Column/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "CRÉDITOS"
+alignment = 0
+
+[node name="QuitButton" type="Button" parent="Margin/Column/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "SALIR"
+alignment = 0
+
+[node name="Gap2" type="Control" parent="Margin/Column"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="ControlsLabel" type="Label" parent="Margin/Column"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.48, 0.44, 1)
+theme_override_font_sizes/font_size = 18
+text = "WASD moverse · Shift correr · Ctrl agacharse · F linterna · E interactuar · Esc pausa"
+
+[node name="VersionLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -220.0
 offset_top = -56.0
-offset_right = 500.0
+offset_right = -32.0
 offset_bottom = -24.0
-theme_override_font_sizes/font_size = 16
-theme_override_colors/font_color = Color(0.62, 0.68, 0.78, 1)
-text = "WASD moverse  ·  Shift correr  ·  Ctrl agacharse  ·  F linterna  ·  E interactuar"
-horizontal_alignment = 1
-vertical_alignment = 1
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.45, 0.43, 0.4, 1)
+theme_override_font_sizes/font_size = 18
+text = "v1.1"
+horizontal_alignment = 2
+
+[node name="Credits" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -380.0
+offset_top = -260.0
+offset_right = 380.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Box" type="VBoxContainer" parent="Credits"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Credits/Box"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+theme_override_font_sizes/font_size = 44
+text = "Créditos"
+
+[node name="Text" type="Label" parent="Credits/Box"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 20
+text = "Un juego de la materia de Graficación · Tec, 2026
+
+Programación y lógica: Yuu (Rol 2)
+Mundo y pantallas: Dani (Rol 1)
+Arte 3D en Blender: Chriss (Rol 3)
+
+Motor: Godot 4.7  ·  Texturas: ambientCG (CC0)  ·  Cielo: Poly Haven (CC0)
+Tipografías: Special Elite, Barlow Condensed (Google Fonts)
+Sonidos y música: generados por código para este juego
+Detalle completo en CREDITOS.md"
+autowrap_mode = 3
+
+[node name="CloseCredits" type="Button" parent="Credits/Box"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 22
+text = "VOLVER"
+
+[node name="OptionsMenu" parent="." instance=ExtResource("5_opt")]
+layout_mode = 1
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_music")
+volume_db = -6.0
+bus = &"Music"
+script = ExtResource("7_loop")

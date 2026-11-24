@@ -13,6 +13,7 @@ enum State { PATROL, CHASE, SEARCH }
 @export var hearing_range: float = 6.0 # si corres a esta distancia o menos, te escucha
 @export var chase_volume_db: float = -8.0
 @export var step_distance: float = 1.4 # metros entre pisadas
+@export var chase_memory: float = 1.5 # segundos que te sigue "de memoria" tras perderte de vista
 
 var state: State = State.PATROL
 var waypoint: int = 0 # punto de la ruta al que va
@@ -21,6 +22,7 @@ var search_timer: float = 0.0
 var look_timer: float = 0.0
 var stuck_timer: float = 0.0
 var stuck_check: Vector3 # dónde estaba en la última revisión de atasco
+var lost_timer: float = 0.0 # cuánto lleva sin verte durante la persecución
 var catching: bool = false # candado: true mientras dura la captura
 var player: Node3D
 var player_head: Node3D
@@ -40,6 +42,7 @@ func _ready() -> void:
 	music = AudioStreamPlayer.new()
 	music.stream = load("res://assets/audio/persecucion.wav")
 	music.volume_db = -40.0
+	music.bus = &"Music"
 	music.finished.connect(music.play)
 	add_child(music)
 	# Pasos pesados en 3D: se oyen más fuerte y del lado donde está el guardia
@@ -54,6 +57,7 @@ func _ready() -> void:
 	steps.unit_size = 3.0
 	steps.max_distance = 18.0
 	steps.position.y = 0.1
+	steps.bus = &"SFX"
 	add_child(steps)
 
 
@@ -73,7 +77,7 @@ func _physics_process(delta: float) -> void:
 			elif can_hear_player():
 				start_search(player.global_position)
 		State.CHASE:
-			chase()
+			chase(delta)
 		State.SEARCH:
 			search(delta)
 			if can_see_player():
@@ -94,6 +98,16 @@ func _physics_process(delta: float) -> void:
 func start_chase() -> void:
 	state = State.CHASE
 	last_seen = player.global_position
+	lost_timer = 0.0
+
+
+# Los usa DangerFX (viñeta, latido) para saber qué está haciendo el guardia
+func is_chasing() -> bool:
+	return state == State.CHASE and not catching
+
+
+func is_searching() -> bool:
+	return state == State.SEARCH
 
 
 # Te escuchó correr: va a revisar ese lugar (camina, no te persigue)
@@ -102,6 +116,8 @@ func start_search(where: Vector3) -> void:
 	last_seen = where
 	search_timer = 0.0
 	look_timer = 0.0
+	stuck_timer = 0.0
+	stuck_check = global_position
 
 
 # Ronda: va de punto en punto de GuardPath; el mapa de navegación lo lleva por pasillos y puertas
@@ -124,24 +140,41 @@ func patrol(delta: float) -> void:
 	move_toward_target(target, speed)
 
 
-# Persecución: solo mientras te ve
-func chase() -> void:
+# Persecución: mientras te ve, y un momento después ("memoria") para que no
+# te pierda solo por doblar una esquina o pasar detrás de una silla
+func chase(delta: float) -> void:
 	if player == null:
 		state = State.PATROL
 		return
 	if can_see_player():
+		lost_timer = 0.0
 		last_seen = player.global_position
-		move_toward_target(last_seen, chase_speed)
-		if global_position.distance_to(player.global_position) < catch_distance:
-			catch_player()
 	else:
-		# Te perdió de vista: ya no te persigue, camina a donde te vio por última vez
-		start_search(last_seen)
+		lost_timer += delta
+		if lost_timer > chase_memory:
+			# Ya te perdió: camina a donde te vio por última vez
+			start_search(last_seen)
+			return
+		# Durante la memoria sigue hacia donde realmente estás (te "intuye")
+		last_seen = player.global_position
+	move_toward_target(last_seen, chase_speed)
+	# Si te alcanza, te atrapa (aunque justo en ese cuadro no te vea)
+	if flat_distance(player.global_position) < catch_distance:
+		catch_player()
 
 
 # Búsqueda: camina (sin correr) a tu última posición, mira alrededor y vuelve a su ronda
 func search(delta: float) -> void:
 	search_timer += delta
+	# Revisión de atasco (puerta cerrada, mueble): si en 2 s no avanzó, deja de caminar
+	stuck_timer += delta
+	var stuck := false
+	if stuck_timer >= 2.0:
+		stuck = flat_distance(stuck_check) < 0.3
+		stuck_check = global_position
+		stuck_timer = 0.0
+	if stuck:
+		search_timer = give_up_time
 	if flat_distance(last_seen) > 0.8 and search_timer < give_up_time:
 		move_toward_target(last_seen, speed)
 		return

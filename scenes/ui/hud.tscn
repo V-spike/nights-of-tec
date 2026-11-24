@@ -2,13 +2,14 @@
 
 [ext_resource type="Theme" path="res://scenes/ui/nights_theme.tres" id="1_0mwgc"]
 [ext_resource type="Script" path="res://scenes/ui/hud.gd" id="2_hud"]
+[ext_resource type="FontFile" path="res://assets/fonts/SpecialElite-Regular.ttf" id="3_type"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hqnrr"]
 content_margin_left = 32.0
 content_margin_top = 32.0
 content_margin_right = 32.0
 content_margin_bottom = 32.0
-bg_color = Color(0.93, 0.89, 0.78, 1)
+bg_color = Color(0.8, 0.76, 0.66, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
@@ -20,12 +21,12 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_key"]
-bg_color = Color(0.05, 0.07, 0.12, 0.8)
+bg_color = Color(0.04, 0.03, 0.03, 0.85)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.95, 0.72, 0.35, 1)
+border_color = Color(0.74, 0.14, 0.1, 1)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
@@ -52,7 +53,7 @@ offset_bottom = 24.0
 [node name="ObjectiveLabel" type="Label" parent="Root/ObjectivePanel" unique_id=1914565411]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(0.91, 0.95, 1, 1)
+theme_override_colors/font_color = Color(0.88, 0.85, 0.78, 1)
 text = "OBJETIVO: Lee la nota del escritorio"
 vertical_alignment = 1
 
@@ -68,8 +69,8 @@ offset_bottom = -24.0
 [node name="StaminaTitle" type="Label" parent="Root/StaminaBox" unique_id=385504845]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
-theme_override_colors/font_color = Color(0.62, 0.68, 0.78, 1)
-text = "STAMINA"
+theme_override_colors/font_color = Color(0.58, 0.55, 0.5, 1)
+text = "ALIENTO"
 vertical_alignment = 1
 
 [node name="StaminaBar" type="ProgressBar" parent="Root/StaminaBox" unique_id=618589667]
@@ -90,7 +91,7 @@ offset_top = -72.0
 offset_right = -24.0
 offset_bottom = -24.0
 theme_override_font_sizes/font_size = 15
-theme_override_colors/font_color = Color(0.62, 0.68, 0.78, 1)
+theme_override_colors/font_color = Color(0.58, 0.55, 0.5, 1)
 text = "WASD moverse · Shift correr · Ctrl agacharse
 F linterna · Mantén E para interactuar · Esc pausa"
 horizontal_alignment = 2
@@ -108,7 +109,7 @@ offset_top = -150.0
 offset_right = 400.0
 offset_bottom = -110.0
 theme_override_font_sizes/font_size = 22
-theme_override_colors/font_color = Color(0.95, 0.72, 0.35, 1)
+theme_override_colors/font_color = Color(0.74, 0.14, 0.1, 1)
 text = "Has tomado una llave."
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -133,7 +134,8 @@ theme_override_constants/separation = 16
 [node name="NoteText" type="Label" parent="Root/NotePanel/Box" unique_id=1322739366]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_font_sizes/font_size = 20
+theme_override_fonts/font = ExtResource("3_type")
+theme_override_font_sizes/font_size = 22
 theme_override_colors/font_color = Color(0.15, 0.12, 0.1, 1)
 text = "Texto de la nota"
 autowrap_mode = 3
@@ -165,7 +167,7 @@ custom_minimum_size = Vector2(44, 44)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 24
-theme_override_colors/font_color = Color(0.95, 0.72, 0.35, 1)
+theme_override_colors/font_color = Color(0.74, 0.14, 0.1, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_key")
 text = "E"
 horizontal_alignment = 1
@@ -187,10 +189,11 @@ color = Color(0, 0, 0, 0)
 [node name="GameOverLabel" type="Label" parent="Root" unique_id=1551258615]
 visible = false
 layout_mode = 0
+theme_type_variation = &"TitleLabel"
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_font_sizes/font_size = 64
-theme_override_colors/font_color = Color(0.85, 0.2, 0.2, 1)
+theme_override_colors/font_color = Color(0.7, 0.1, 0.08, 1)
 text = "TE ATRAPARON"
 horizontal_alignment = 1
 vertical_alignment = 1
