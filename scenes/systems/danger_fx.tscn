@@ -1,0 +1,42 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/danger_fx.gd" id="1_fx"]
+[ext_resource type="Shader" path="res://assets/shaders/vineta.gdshader" id="2_vig"]
+[ext_resource type="AudioStream" path="res://assets/audio/latido.ogg" id="3_beat"]
+[ext_resource type="AudioStream" path="res://assets/audio/respiracion.ogg" id="4_breath"]
+[ext_resource type="AudioStream" path="res://assets/audio/aguijon_visto.ogg" id="5_sting"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vig"]
+shader = ExtResource("2_vig")
+shader_parameter/intensity = 0.28
+shader_parameter/red_amount = 0.0
+shader_parameter/grain = 0.035
+shader_parameter/aberration = 0.0
+shader_parameter/desaturate = 0.0
+
+[node name="DangerFX" type="CanvasLayer"]
+layer = 0
+script = ExtResource("1_fx")
+
+[node name="Vignette" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_vig")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Heartbeat" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_beat")
+bus = &"SFX"
+
+[node name="Breathing" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_breath")
+bus = &"SFX"
+
+[node name="Stinger" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_sting")
+volume_db = -6.0
+bus = &"Music"
